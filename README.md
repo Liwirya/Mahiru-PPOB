@@ -19,7 +19,7 @@ Bot Mahiru Shiina PPOB menggunakan **API Atlantic** untuk menjalankan semua tran
    - Kunjungi situs resmi [Atlantic Pedia](https://m.atlantic-pedia.co.id/).
    - Klik tombol **Daftar**, lalu isi formulir pendaftaran dengan data yang valid (nama, email, nomor telepon, dll.).
    - Setelah pendaftaran selesai, login ke **Dashboard** menggunakan akun yang baru dibuat.
-   - **[Gambar 1: Tangkapan layar halaman pendaftaran Atlantic Pedia]** *(Sisipkan gambar halaman pendaftaran di sini untuk membantu pengguna visualisasi prosesnya)*.
+   - **[https://img1.pixhost.to/images/6555/612032552_skyzo.jpg]**.
 
 2. **Upgrade Akun ke H2H** 🔧
    - Di dalam dashboard, navigasikan ke menu **Profile** atau **Pengaturan Akun**.
