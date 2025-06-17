@@ -87,7 +87,7 @@ A: Periksa kembali API Key, koneksi internet, dan pastikan nomor WhatsApp bot ti
 ## 📢 **Kontak dan Dukungan**
 Jika kamu mengalami kendala atau memiliki pertanyaan, hubungi tim pengembang atau komunitas Mahiru PPOB melalui:
 - **Email**: wiraliwirya@gmail.com.
-- **Grup WhatsApp/Telegram**: [https://whatsapp.com/channel/0029VadHRVCEQIagiLHVJV0d](#).
+- **Chanell WhatsApp**: [https://whatsapp.com/channel/0029VadHRVCEQIagiLHVJV0d](#).
 
 ---
 
