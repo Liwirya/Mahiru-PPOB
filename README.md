@@ -19,7 +19,6 @@ Bot Mahiru Shiina PPOB menggunakan **API Atlantic** untuk menjalankan semua tran
    - Kunjungi situs resmi [Atlantic Pedia](https://m.atlantic-pedia.co.id/).
    - Klik tombol **Daftar**, lalu isi formulir pendaftaran dengan data yang valid (nama, email, nomor telepon, dll.).
    - Setelah pendaftaran selesai, login ke **Dashboard** menggunakan akun yang baru dibuat.
-   - **[https://img1.pixhost.to/images/6555/612032552_skyzo.jpg]**.
 
 2. **Upgrade Akun ke H2H** 🔧
    - Di dalam dashboard, navigasikan ke menu **Profile** atau **Pengaturan Akun**.
@@ -29,14 +28,14 @@ Bot Mahiru Shiina PPOB menggunakan **API Atlantic** untuk menjalankan semua tran
      - **URL/No Bot**: Masukkan nomor WhatsApp yang akan digunakan untuk bot (contoh: *+62xxxxxxxxxx*).
      - **Deskripsi**: Jelaskan secara singkat tujuan penggunaan bot (contoh: "Untuk transaksi PPOB otomatis via WhatsApp").
    - Kirim permintaan upgrade dan tunggu proses verifikasi dari tim CS Atlantic (biasanya memakan waktu hingga **3 hari kerja**).
-   - **[Gambar 2: Contoh formulir upgrade H2H]** *(Sisipkan gambar formulir upgrade untuk panduan visual)*.
+   - **[Gambar 2: https://img1.pixhost.to/images/6555/612032552_skyzo.jpg]**.
 
 3. **Ambil API Key** 🔐
    - Setelah akunmu diupgrade, kunjungi [Atlantic H2H](https://atlantich2h.com/).
    - Login menggunakan akun Atlantic Pedia yang telah diupgrade.
    - Navigasikan ke menu **API** atau **Pengaturan API** di dashboard.
    - Salin **API Key** yang tersedia di halaman tersebut.
-   - **[Gambar 3: Tangkapan layar halaman API Key]** *(Sisipkan gambar halaman API untuk memudahkan pengguna menemukan API Key)*.
+   - **[Gambar 3: https://img1.pixhost.to/images/6555/612033713_skyzo.jpg]**.
    - Paste **API Key** ke konfigurasi bot Mahiru Shiina PPOB (lihat panduan konfigurasi bot di bawah).
 
 4. **Setting Whitelist IP** 🌐
@@ -50,10 +49,10 @@ Bot Mahiru Shiina PPOB menggunakan **API Atlantic** untuk menjalankan semua tran
 Setelah mendapatkan **API Key**, langkah selanjutnya adalah mengatur bot agar terhubung dengan API Atlantic. Berikut langkah-langkahnya:
 
 1. **Unduh dan Instal Bot** 📥
-   - Pastikan kamu sudah memiliki kode sumber atau aplikasi bot Mahiru Shiina PPOB (dapat diunduh dari github resmin [https://github.com/liwiryasenka/Mahiru-PPOB](#)).
+   - Pastikan kamu sudah memiliki kode sumber atau aplikasi bot Mahiru Shiina PPOB (dapat diunduh dari github resmi [https://github.com/liwiryasenka/Mahiru-PPOB](#)).
 
 2. **Masukkan API Key ke Bot** 🔗
-   - Buka file konfigurasi bot bernama `settings.json`.
+   - Buka file konfigurasi bot bernama `settings.js`.
    - Cari bagian untuk memasukkan **API Key** dan paste kunci yang sudah kamu salin dari Atlantic H2H.
    - Simpan perubahan dan restart bot.
 
