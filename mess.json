@@ -1,0 +1,14 @@
+{
+  "wait": "⏳ _Sedang memproses data, tunggu sebentar ya!_ ✨",
+  "error": {
+    "Iv": "🔗 Link yang kamu masukkan *tidak valid*! 😔",
+    "api": "❌ Maaf, terjadi kesalahan pada sistem! 🚨"
+  },
+  "OnlyGrup": "👥 Perintah ini *hanya bisa digunakan di grup chat*!",
+  "OnlyPM": "💬 Perintah ini *hanya bisa digunakan di private chat*!",
+  "GrupAdmin": "🛡️ Perintah ini *khusus untuk Admin Grup*!",
+  "BotAdmin": "🤖 Bot *harus menjadi admin* untuk menjalankan perintah ini!",
+  "OnlyOwner": "👑 Perintah ini *hanya untuk owner bot*!",
+  "OnlyPrem": "💎 Perintah ini *khusus untuk member premium*! \n📩 Minat jadi premium? Hubungi owner sekarang!",
+  "OnlyUser": "📋 Maaf, kamu *belum terdaftar* di database Shiunji! \n✨ Ketik *Daftar* untuk memverifikasi diri kamu! 🚀"
+}
