@@ -16,7 +16,7 @@ Bot Mahiru Shiina PPOB menggunakan **API Atlantic** untuk menjalankan semua tran
 ### 🛠 **Langkah-langkah Mendapatkan API Key**
 
 1. **Daftar di Atlantic Pedia** 🖱️
-   - Kunjungi situs resmi [Atlantic Pedia](https://atlantic-pedia.co.id).
+   - Kunjungi situs resmi [Atlantic Pedia](https://m.atlantic-pedia.co.id/).
    - Klik tombol **Daftar**, lalu isi formulir pendaftaran dengan data yang valid (nama, email, nomor telepon, dll.).
    - Setelah pendaftaran selesai, login ke **Dashboard** menggunakan akun yang baru dibuat.
    - **[Gambar 1: Tangkapan layar halaman pendaftaran Atlantic Pedia]** *(Sisipkan gambar halaman pendaftaran di sini untuk membantu pengguna visualisasi prosesnya)*.
