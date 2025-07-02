@@ -1,4 +1,4 @@
-# 🚀 **Mahiru PPOB - Panduan Setup Bot Mahiru Shiina PPOB** 🛒
+# 🚀 **Mahiru PPOB - Panduan Penggunaan Bot** 🛒
 
 Selamat datang di panduan lengkap untuk menyiapkan **Bot Mahiru Shiina PPOB**! 🎉 Bot ini memungkinkan kamu untuk menjalankan transaksi pulsa, top-up game, token listrik, dan berbagai layanan PPOB lainnya menggunakan **API Atlantic**. Ikuti langkah-langkah di bawah ini untuk memulai dengan mudah dan cepat! 🚀
 
