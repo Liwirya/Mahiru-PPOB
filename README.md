@@ -4,7 +4,7 @@ Selamat datang di panduan lengkap untuk menyiapkan **Bot Mahiru Shiina PPOB**! �
 
 ---
 
-## 📸 **Tampilan Awal Bot Mahiru PPOB**
+## 📸 **Https Not Found | Liwirya Senka**
 ![Showcase Image](https://files.catbox.moe/h9tt6l.jpg)
 
 ---
