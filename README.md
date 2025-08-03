@@ -105,16 +105,13 @@ npm start
 ---
 
 # 💡 Troubleshooting & FAQ
-<b>T</b>: Proses upgrade H2H saya lebih dari 3 hari. Apa yang harus dilakukan?
-
+<b>T: Proses upgrade H2H saya lebih dari 3 hari. Apa yang harus dilakukan?</b>
 <b>J</b>: Hubungi layanan pelanggan (CS) resmi Atlantic Pedia melalui kontak yang tersedia di situs mereka. Lampirkan email atau username Anda untuk mempercepat pengecekan.
 
-<b>T</b>: Bot menampilkan error terkait "Authentication Failed" atau "Invalid API Key".
-
+<b>T: Bot menampilkan error terkait "Authentication Failed" atau "Invalid API Key".</b>
 <b>J</b>: Ini berarti API Key Anda salah atau belum aktif. Pastikan Anda telah menyalinnya dengan benar dari portal Atlantic H2H dan akun Anda sudah berstatus H2H.
 
-<b>T</b>: Apakah bot ini gratis?
-
+<b>T: Apakah bot ini gratis?</b>
 <b>J</b>: Framework bot Mahiru ini gratis dan open-source. Namun, Anda tetap bertanggung jawab atas biaya transaksi dan saldo yang Anda depositkan ke akun Atlantic Pedia.
 
 ---
