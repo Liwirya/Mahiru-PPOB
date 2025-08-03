@@ -74,7 +74,7 @@ Dengan kredensial API di tangan, kini saatnya mengkonfigurasi dan menjalankan bo
 ### Langkah 1: Clone Repositori
 Buka terminal atau command prompt Anda, lalu jalankan perintah berikut untuk mengunduh kode sumber bot.
 ```bash
-git clone [https://github.com/liwiryasenka/Mahiru-PPOB.git](https://github.com/liwiryasenka/Mahiru-PPOB.git)
+git clone https://github.com/Liwirya/Mahiru-PPOB
 cd Mahiru-PPOB
 ```
 
@@ -87,23 +87,13 @@ npm install
 ### Langkah 3: Konfigurasi Environment
 Buka file settings.js dan masukkan semua informasi yang diperlukan. File ini adalah pusat konfigurasi bot Anda
 ```bash
-const payment = {
-
-    all: {
-
-        atas_nama: "wira" // 📛 Nama untuk transaksi
-
-    }
-
-};
-
 // 🔑 API Key untuk Atlantic
 
-const apikeyAtlantic = "4Davk3CWkdZ2HnrsuvIGkCRPeeIhFm8pY9BrMEr9pxjpZCCsuGlC8U83OOK2SK8TlqaSwYdusWpuBLNZwLyAg5SAmE2WIvGr26VB"; // 🔐 Masukkan API Key Atlantic di sini
+const apikeyAtlantic = "4Davk3CWkdZ2xxxx"; // Masukan Apikey Atlantic
 
 // ⚙️ Pengaturan Bot
 
-global.ownerNumber = "6283879152564@s.whatsapp.net"; // 📱 Nomor WhatsApp Owner ( Kamu )
+global.ownerNumber = "628xxxx@s.whatsapp.net"; // Nomor WhatsApp Kamu ( Owner )
 ```
 
 ### Langkah 4: Jalankan Bot
@@ -115,13 +105,13 @@ npm start
 ---
 
 # 💡 Troubleshooting & FAQ
-# T: Proses upgrade H2H saya lebih dari 3 hari. Apa yang harus dilakukan?
+<b>T</b>: Proses upgrade H2H saya lebih dari 3 hari. Apa yang harus dilakukan?
 <b>J</b>: Hubungi layanan pelanggan (CS) resmi Atlantic Pedia melalui kontak yang tersedia di situs mereka. Lampirkan email atau username Anda untuk mempercepat pengecekan.
 
-# T: Bot menampilkan error terkait "Authentication Failed" atau "Invalid API Key".
+<b>T</b>: Bot menampilkan error terkait "Authentication Failed" atau "Invalid API Key".
 <b>J</b>: Ini berarti API Key Anda salah atau belum aktif. Pastikan Anda telah menyalinnya dengan benar dari portal Atlantic H2H dan akun Anda sudah berstatus H2H.
 
-# T: Apakah bot ini gratis?
+<b>T</b>: Apakah bot ini gratis?
 <b>J</b>: Framework bot Mahiru ini gratis dan open-source. Namun, Anda tetap bertanggung jawab atas biaya transaksi dan saldo yang Anda depositkan ke akun Atlantic Pedia.
 
 ---
@@ -129,12 +119,9 @@ npm start
 # 📢 Dukungan & Komunitas
 Untuk pertanyaan, diskusi, atau laporan bug, silakan hubungi kami melalui:
 
-Email Pengembang: wiraliwirya@gmail.com
-
-Channel Komunitas WhatsApp: Gabung di Sini
-
-Laporkan Isu: Buka issue baru di halaman GitHub.
+<b>Email Pengembang</b>: wiraliwirya@gmail.com
+<b>Channel Komunitas WhatsApp</b>: https://whatsapp.com/channel/0029VadHRVCEQIagiLHVJV0d
 
 --
 
-Dibuat dengan ❤️ oleh Liwirya x Mahiru © 2025 Liwirya. All rights reserved.
+Dibuat dengan ❤️ oleh <b>Liwirya x Mahiru © 2025</b>. All rights reserved.
