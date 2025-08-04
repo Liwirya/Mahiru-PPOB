@@ -246,7 +246,7 @@ module.exports = async (liwirya, msg, setting, store) => {
          mentionedJid: mentioned || [],
          chat: msg.key.remoteJid // Tambahkan properti chat
       };
-      
+
       const p_c = prefix + command;
 
       async function appenTextMessage(text, chatUpdate) {
@@ -1460,7 +1460,7 @@ ${adminListText}
             break;
          }
          break
-      
+
          case 'menu2':
          case 'allmenu': {
             const mark_slebew = '0@s.whatsapp.net';
@@ -2599,17 +2599,21 @@ Ada deposit baru nih, Kak! Mohon cek saldo pembayaran\n. Jika sudah masuk, konfi
          break
 
          case 'saldo': {
-    if (cekUser("id", sender) == null) {
-        return await reply('🚫 *Anda Belum Terdaftar!*\nSilakan ketik *.daftar* untuk membuat akun.');
-    }
+            if (cekUser("id", sender) == null) {
+               return await reply('🚫 *Anda Belum Terdaftar!*\nSilakan ketik *.daftar* untuk membuat akun.');
+            }
 
-    try {
-        const user = db_user.find(u => u.id === sender);
-        const userName = user?.name || pushname;
-        const userBalance = toRupiah(cekSaldo(sender, db_saldo));
-        const timestamp = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', dateStyle: 'long', timeStyle: 'short' });
+            try {
+               const user = db_user.find(u => u.id === sender);
+               const userName = user?.name || pushname;
+               const userBalance = toRupiah(cekSaldo(sender, db_saldo));
+               const timestamp = new Date().toLocaleString('id-ID', {
+                  timeZone: 'Asia/Jakarta',
+                  dateStyle: 'long',
+                  timeStyle: 'short'
+               });
 
-        const balanceCard = `
+               const balanceCard = `
 ╔═════════════════╗
 ║  💳 *INFORMASI SALDO ANDA* ║
 ╚═════════════════╝
@@ -2625,14 +2629,18 @@ Halo, *${userName}*. Berikut adalah rincian saldo Anda saat ini.
 ╰───────────────╯
 `;
 
-        await liwirya.sendMessage(from, { text: balanceCard }, { quoted: msg });
+               await liwirya.sendMessage(from, {
+                  text: balanceCard
+               }, {
+                  quoted: msg
+               });
 
-    } catch (error) {
-        console.error("Error di case 'saldo':", error);
-        await reply('⚠️ Terjadi kesalahan saat memuat informasi saldo Anda.');
-    }
-    break;
-}
+            } catch (error) {
+               console.error("Error di case 'saldo':", error);
+               await reply('⚠️ Terjadi kesalahan saat memuat informasi saldo Anda.');
+            }
+            break;
+         }
          break
 
          case 'listsaldo': {
@@ -2685,13 +2693,17 @@ Halo, *${userName}*. Berikut adalah rincian saldo Anda saat ini.
          break
 
          case 'topsaldo': {
-    try {
-        if (db_saldo.length === 0) return reply('📉 Papan peringkat masih kosong.');
+            try {
+               if (db_saldo.length === 0) return reply('📉 Papan peringkat masih kosong.');
 
-        const topSaldoUsers = db_saldo.sort((a, b) => b.saldo - a.saldo).slice(0, 10);
-        const timestamp = new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
+               const topSaldoUsers = db_saldo.sort((a, b) => b.saldo - a.saldo).slice(0, 10);
+               const timestamp = new Date().toLocaleDateString('id-ID', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric'
+               });
 
-        let leaderboardText = `
+               let leaderboardText = `
 ╔═════════════════╗
 ║    🏆 *TOP 10 SULTAN ${global.namaStore.toUpperCase()}* 🏆 ║
 ╚═════════════════╝
@@ -2700,41 +2712,45 @@ Berikut adalah 10 pengguna dengan saldo tertinggi per tanggal ${timestamp}. Teru
 
 `;
 
-        topSaldoUsers.forEach((user, index) => {
-            const userData = db_user.find(u => u.id === user.id);
-            let displayName = `User-${user.id.substring(4, 8)}`;
-            if (userData && userData.name) {
-                const nameParts = userData.name.split(' ');
-                displayName = nameParts.length > 1 ? `${nameParts[0]} ${nameParts[1].charAt(0)}.` : nameParts[0];
-            }
-            
-            let rank;
-            if (index === 0) rank = '🥇';
-            else if (index === 1) rank = '🥈';
-            else if (index === 2) rank = '🥉';
-            else rank = ` ${index + 1}.`;
+               topSaldoUsers.forEach((user, index) => {
+                  const userData = db_user.find(u => u.id === user.id);
+                  let displayName = `User-${user.id.substring(4, 8)}`;
+                  if (userData && userData.name) {
+                     const nameParts = userData.name.split(' ');
+                     displayName = nameParts.length > 1 ? `${nameParts[0]} ${nameParts[1].charAt(0)}.` : nameParts[0];
+                  }
 
-            leaderboardText += `\n ${rank} *${displayName}* - Rp${toRupiah(user.saldo)}`;
-        });
-        
-        leaderboardText += `\n\n- - - - - - - - - - - - - - - - - - - - -
+                  let rank;
+                  if (index === 0) rank = '🥇';
+                  else if (index === 1) rank = '🥈';
+                  else if (index === 2) rank = '🥉';
+                  else rank = ` ${index + 1}.`;
+
+                  leaderboardText += `\n ${rank} *${displayName}* - Rp${toRupiah(user.saldo)}`;
+               });
+
+               leaderboardText += `\n\n- - - - - - - - - - - - - - - - - - - - -
 *Nama pengguna disamarkan untuk menjaga privasi.*`;
 
-        await liwirya.sendMessage(from, { text: leaderboardText }, { quoted: msg });
-        
-    } catch (error) {
-        console.error('Error in topsaldo:', error);
-        await reply('❌ Terjadi kesalahan saat memuat papan peringkat.');
-    }
-    break;
-}
+               await liwirya.sendMessage(from, {
+                  text: leaderboardText
+               }, {
+                  quoted: msg
+               });
+
+            } catch (error) {
+               console.error('Error in topsaldo:', error);
+               await reply('❌ Terjadi kesalahan saat memuat papan peringkat.');
+            }
+            break;
+         }
          break;
 
          case 'addsaldo': {
-    if (!isOwner) return reply('🚫 Perintah ini khusus untuk Owner.');
+            if (!isOwner) return reply('🚫 Perintah ini khusus untuk Owner.');
 
-    if (!q || !q.includes('|')) {
-        const usageCard = `
+            if (!q || !q.includes('|')) {
+               const usageCard = `
 ⚙️ *Perintah: Tambah Saldo* ⚙️
 Menambahkan saldo ke akun pengguna.
 
@@ -2745,26 +2761,26 @@ Menambahkan saldo ke akun pengguna.
 \`\`\`${prefix}addsaldo 6281234567890|50000\`\`\`
 
 *Penting:* Gunakan nomor tanpa awalan '+' atau spasi.`;
-        return reply(usageCard);
-    }
+               return reply(usageCard);
+            }
 
-    const [phoneNumber, amountStr] = q.split('|');
-    if (!/^\d+$/.test(phoneNumber) || !/^\d+$/.test(amountStr)) {
-        return reply('❌ *Format Salah!*\nPastikan nomor dan jumlah hanya berisi angka.');
-    }
+            const [phoneNumber, amountStr] = q.split('|');
+            if (!/^\d+$/.test(phoneNumber) || !/^\d+$/.test(amountStr)) {
+               return reply('❌ *Format Salah!*\nPastikan nomor dan jumlah hanya berisi angka.');
+            }
 
-    const userId = `${phoneNumber}@s.whatsapp.net`;
-    const amount = Number(amountStr);
-    const userExists = db_user.find(u => u.id === userId);
-    if (!userExists) return reply(`❌ *Pengguna Tidak Terdaftar!*\nNomor ${phoneNumber} belum terdaftar di bot.`);
+            const userId = `${phoneNumber}@s.whatsapp.net`;
+            const amount = Number(amountStr);
+            const userExists = db_user.find(u => u.id === userId);
+            if (!userExists) return reply(`❌ *Pengguna Tidak Terdaftar!*\nNomor ${phoneNumber} belum terdaftar di bot.`);
 
-    try {
-        const balanceBefore = cekSaldo(userId, db_saldo);
-        addSaldo(userId, amount, db_saldo);
-        const balanceAfter = cekSaldo(userId, db_saldo);
-        const userName = userExists.name;
-        
-        const ownerReceipt = `
+            try {
+               const balanceBefore = cekSaldo(userId, db_saldo);
+               addSaldo(userId, amount, db_saldo);
+               const balanceAfter = cekSaldo(userId, db_saldo);
+               const userName = userExists.name;
+
+               const ownerReceipt = `
 ✅ *TRANSAKSI ADMIN BERHASIL* ✅
 
 Tipe: *PENAMBAHAN SALDO*
@@ -2779,9 +2795,14 @@ Tanggal: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}
 │  *Saldo Akhir:* Rp${toRupiah(balanceAfter)}
 │
 ╰────────────────╯`;
-        await liwirya.sendMessage(from, { text: ownerReceipt, mentions: [userId] }, { quoted: msg });
+               await liwirya.sendMessage(from, {
+                  text: ownerReceipt,
+                  mentions: [userId]
+               }, {
+                  quoted: msg
+               });
 
-        const userNotification = `
+               const userNotification = `
 🎉 *SELAMAT, SALDO ANDA BERTAMBAH!* 🎉
 
 Admin telah menambahkan saldo ke akun Anda.
@@ -2797,20 +2818,22 @@ Admin telah menambahkan saldo ke akun Anda.
 ╰─────────────────╯
 
 Gunakan perintah *.menu* untuk mulai bertransaksi.`;
-        await liwirya.sendMessage(userId, { text: userNotification }, {});
+               await liwirya.sendMessage(userId, {
+                  text: userNotification
+               }, {});
 
-    } catch (error) {
-        console.error('Error adding saldo:', error);
-        await reply('⚠️ Gagal memproses penambahan saldo.');
-    }
-    break;
-}
+            } catch (error) {
+               console.error('Error adding saldo:', error);
+               await reply('⚠️ Gagal memproses penambahan saldo.');
+            }
+            break;
+         }
 
-case 'minsaldo': {
-    if (!isOwner) return reply('🚫 Perintah ini khusus untuk Owner.');
+         case 'minsaldo': {
+            if (!isOwner) return reply('🚫 Perintah ini khusus untuk Owner.');
 
-    if (!q || !q.includes('|')) {
-        const usageCard = `
+            if (!q || !q.includes('|')) {
+               const usageCard = `
 ⚙️ *Perintah: Kurangi Saldo* ⚙️
 Mengurangi saldo dari akun pengguna.
 
@@ -2820,28 +2843,30 @@ Mengurangi saldo dari akun pengguna.
 *Contoh:*
 \`\`\`${prefix}minsaldo 6281234567890|10000\`\`\`
 `;
-        return reply(usageCard);
-    }
-    
-    const [phoneNumber, amountStr] = q.split('|');
-    if (!/^\d+$/.test(phoneNumber) || !/^\d+$/.test(amountStr)) {
-        return reply('❌ *Format Salah!*\nPastikan nomor dan jumlah hanya berisi angka.');
-    }
+               return reply(usageCard);
+            }
 
-    const userId = `${phoneNumber}@s.whatsapp.net`;
-    const amount = Number(amountStr);
-    const balanceBefore = cekSaldo(userId, db_saldo);
-    const userExists = db_user.find(u => u.id === userId);
-    
-    if (!userExists) return reply(`❌ *Pengguna Tidak Terdaftar!*\nNomor ${phoneNumber} tidak ada di database.`);
-    if (balanceBefore < amount) return reply(`⚠️ *Saldo Tidak Cukup!*\nSaldo pengguna (@${phoneNumber}) hanya Rp${toRupiah(balanceBefore)}.`, { mentions: [userId] });
+            const [phoneNumber, amountStr] = q.split('|');
+            if (!/^\d+$/.test(phoneNumber) || !/^\d+$/.test(amountStr)) {
+               return reply('❌ *Format Salah!*\nPastikan nomor dan jumlah hanya berisi angka.');
+            }
 
-    try {
-        minSaldo(userId, amount, db_saldo);
-        const balanceAfter = cekSaldo(userId, db_saldo);
-        const userName = userExists.name;
-        
-        const ownerReceipt = `
+            const userId = `${phoneNumber}@s.whatsapp.net`;
+            const amount = Number(amountStr);
+            const balanceBefore = cekSaldo(userId, db_saldo);
+            const userExists = db_user.find(u => u.id === userId);
+
+            if (!userExists) return reply(`❌ *Pengguna Tidak Terdaftar!*\nNomor ${phoneNumber} tidak ada di database.`);
+            if (balanceBefore < amount) return reply(`⚠️ *Saldo Tidak Cukup!*\nSaldo pengguna (@${phoneNumber}) hanya Rp${toRupiah(balanceBefore)}.`, {
+               mentions: [userId]
+            });
+
+            try {
+               minSaldo(userId, amount, db_saldo);
+               const balanceAfter = cekSaldo(userId, db_saldo);
+               const userName = userExists.name;
+
+               const ownerReceipt = `
 ✅ *TRANSAKSI ADMIN BERHASIL* ✅
 
 Tipe: *PENGURANGAN SALDO*
@@ -2856,9 +2881,14 @@ Tanggal: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}
 │  *Saldo Akhir:* Rp${toRupiah(balanceAfter)}
 │
 ╰─────────────────╯`;
-        await liwirya.sendMessage(from, { text: ownerReceipt, mentions: [userId] }, { quoted: msg });
+               await liwirya.sendMessage(from, {
+                  text: ownerReceipt,
+                  mentions: [userId]
+               }, {
+                  quoted: msg
+               });
 
-        const userNotification = `
+               const userNotification = `
 📄 *INFORMASI SALDO* 📄
 
 Admin telah melakukan penyesuaian saldo pada akun Anda.
@@ -2874,15 +2904,17 @@ Admin telah melakukan penyesuaian saldo pada akun Anda.
 ╰─────────────────╯
 
 Hubungi admin jika ini adalah sebuah kesalahan.`;
-        await liwirya.sendMessage(userId, { text: userNotification }, {});
-        
-    } catch (error) {
-        console.error('Error reducing saldo:', error);
-        await reply('⚠️ Gagal memproses pengurangan saldo.');
-    }
-    break;
-}
-break
+               await liwirya.sendMessage(userId, {
+                  text: userNotification
+               }, {});
+
+            } catch (error) {
+               console.error('Error reducing saldo:', error);
+               await reply('⚠️ Gagal memproses pengurangan saldo.');
+            }
+            break;
+         }
+         break
 
          break
 
@@ -3524,6 +3556,56 @@ Selamat datang di katalog produk *${global.namaStore}*. Silakan pilih kategori y
                      rowId: `${prefix}hotelmurah`,
                      description: '🏨 Booking HOTELMURAH, liburan hemat!'
                   },
+                  {
+                     title: 'TIX ID',
+                     rowId: `${prefix}tixid`,
+                     description: '🎫 TIX ID, tiket bioskop & event seru instan!'
+                  },
+                  {
+                     title: 'Indriver',
+                     rowId: `${prefix}indriver`,
+                     description: '🚗 Topup saldo Indriver, nikmati perjalanan hemat!'
+                  },
+                  {
+                     title: 'Mandiri E-Toll',
+                     rowId: `${prefix}mandirietoll`,
+                     description: '🛣️ Topup saldo Mandiri E-Toll, lancar di jalan tol!'
+                  },
+                  {
+                     title: 'M-Tix',
+                     rowId: `${prefix}mtix`,
+                     description: '🎟️ Topup saldo M-Tix, beli tiket bioskop dengan mudah!'
+                  },
+                  {
+                     title: 'KasPro',
+                     rowId: `${prefix}kaspro`,
+                     description: '💳 Topup saldo KasPro, transaksi digital tanpa rekening!'
+                  },
+                  {
+                     title: 'Mitra Blibli',
+                     rowId: `${prefix}mitrablibli`,
+                     description: '🛒 Topup saldo Mitra Blibli, jualan lebih lancar!'
+                  },
+                  {
+                     title: 'Shopee Food Driver',
+                     rowId: `${prefix}shopeefooddriver`,
+                     description: '🚚 Topup saldo Shopee Food Driver, antar makanan tanpa hambatan!'
+                  },
+                  {
+                     title: 'Sakuku',
+                     rowId: `${prefix}sakuku`,
+                     description: '💳 Topup saldo Sakuku, pembayaran cepat di merchant BCA!'
+                  },
+                  {
+                     title: 'Mitra Shopee',
+                     rowId: `${prefix}mitrashopee`,
+                     description: '🛒 Topup saldo Mitra Shopee, tingkatkan penjualanmu!'
+                  },
+                  {
+                     title: 'TapCash BNI',
+                     rowId: `${prefix}tapcashbni`,
+                     description: '🛣️ Topup saldo TapCash BNI, praktis untuk tol & merchant!'
+                  },
                ]
             }];
 
@@ -3541,309 +3623,306 @@ Selamat datang di katalog produk *${global.namaStore}*. Silakan pilih kategori y
             break;
          }
          break
-         
+
          case 'kuota': {
-    if (isGroup) return await reply('🚫 Silakan lihat produk di *chat pribadi*.');
-    if (cekUser("id", sender) == null) return; 
+            if (isGroup) return await reply('🚫 Silakan lihat produk di *chat pribadi*.');
+            if (cekUser("id", sender) == null) return;
 
-    const title = "📡 *TOP UP KOUTA & PULSA* 📡";
-    const sections = [{
-        title: "Pilih Kuota & Pulsa Favoritmu",
-        rows: [
-            {
-                        title: 'Pulsa Smartfren',
-                        rowId: `${prefix}pul_smartfren`,
-                        description: '📲 Pulsa Smartfren, cepat masuk, siap pakai!'
-                     },
-                     {
-                        title: 'Pulsa Telkomsel',
-                        rowId: `${prefix}pul_telkomsel`,
-                        description: '☎️ Pulsa Telkomsel, semua nominal ready!'
-                     },
-                     {
-                        title: 'Pulsa Indosat',
-                        rowId: `${prefix}pul_indosat`,
-                        description: '📞 Pulsa IM3, instan & harga bersahabat!'
-                     },
-                     {
-                        title: 'Pulsa Axis',
-                        rowId: `${prefix}pul_axis`,
-                        description: '🔋 Pulsa Axis, langsung aktif tanpa nunggu!'
-                     },
-                     {
-                        title: 'Pulsa Three',
-                        rowId: `${prefix}pul_three`,
-                        description: '⚡ Pulsa Tri, kilat masuk, no lemot!'
-                     },
-                     {
-                        title: 'Pulsa By.U',
-                        rowId: `${prefix}pul_byu`,
-                        description: '📱 Paket data By.U, simpel & hemat kuota!'
-                     },
-                     {
-                        title: 'Smartfren',
-                        rowId: `${prefix}smartfren`,
-                        description: '📶 Kuota Smartfren, streaming tanpa buffering!'
-                     },
-                     {
-                        title: 'Telkomsel',
-                        rowId: `${prefix}telkomsel`,
-                        description: '📱 Paket Telkomsel, internet stabil & kencang!'
-                     },
-                     {
-                        title: 'Indosat',
-                        rowId: `${prefix}indosat`,
-                        description: '💛 Kuota IM3, internetan hemat setiap hari!'
-                     },
-                     {
-                        title: 'Axis',
-                        rowId: `${prefix}axis`,
-                        description: '🟣 Paket Axis, kuota melimpah harga murah!'
-                     },
-                     {
-                        title: 'Three',
-                        rowId: `${prefix}three`,
-                        description: '3️⃣ Kuota Tri, online nonstop 24/7!'
-                     },
-                     {
-                        title: 'By.U',
-                        rowId: `${prefix}byu`,
-                        description: '📱 Paket data By.U, simpel & hemat kuota!'
-                     },
-        ]
-    }];
-    
-    const listMessage = {
-        text: title,
-        footer: "Klik produk untuk melihat daftar harganya.",
-        title: "Daftar Kuota & Pulsa",
-        buttonText: "Lihat Produk Kuota & Pulsa",
-        sections: sections
-    };
-    
-    await liwirya.sendMessage(from, listMessage, { quoted: msg });
-    break;
-}
-break
+            const title = "📡 *TOP UP KOUTA & PULSA* 📡";
+            const sections = [{
+               title: "Pilih Kuota & Pulsa Favoritmu",
+               rows: [{
+                     title: 'Pulsa Smartfren',
+                     rowId: `${prefix}pul_smartfren`,
+                     description: '📲 Pulsa Smartfren, cepat masuk, siap pakai!'
+                  },
+                  {
+                     title: 'Pulsa Telkomsel',
+                     rowId: `${prefix}pul_telkomsel`,
+                     description: '☎️ Pulsa Telkomsel, semua nominal ready!'
+                  },
+                  {
+                     title: 'Pulsa Indosat',
+                     rowId: `${prefix}pul_indosat`,
+                     description: '📞 Pulsa IM3, instan & harga bersahabat!'
+                  },
+                  {
+                     title: 'Pulsa Axis',
+                     rowId: `${prefix}pul_axis`,
+                     description: '🔋 Pulsa Axis, langsung aktif tanpa nunggu!'
+                  },
+                  {
+                     title: 'Pulsa Three',
+                     rowId: `${prefix}pul_three`,
+                     description: '⚡ Pulsa Tri, kilat masuk, no lemot!'
+                  },
+                  {
+                     title: 'Pulsa By.U',
+                     rowId: `${prefix}pul_byu`,
+                     description: '📱 Paket data By.U, simpel & hemat kuota!'
+                  },
+                  {
+                     title: 'Smartfren',
+                     rowId: `${prefix}smartfren`,
+                     description: '📶 Kuota Smartfren, streaming tanpa buffering!'
+                  },
+                  {
+                     title: 'Telkomsel',
+                     rowId: `${prefix}telkomsel`,
+                     description: '📱 Paket Telkomsel, internet stabil & kencang!'
+                  },
+                  {
+                     title: 'Indosat',
+                     rowId: `${prefix}indosat`,
+                     description: '💛 Kuota IM3, internetan hemat setiap hari!'
+                  },
+                  {
+                     title: 'Axis',
+                     rowId: `${prefix}axis`,
+                     description: '🟣 Paket Axis, kuota melimpah harga murah!'
+                  },
+                  {
+                     title: 'Three',
+                     rowId: `${prefix}three`,
+                     description: '3️⃣ Kuota Tri, online nonstop 24/7!'
+                  },
+                  {
+                     title: 'By.U',
+                     rowId: `${prefix}byu`,
+                     description: '📱 Paket data By.U, simpel & hemat kuota!'
+                  },
+               ]
+            }];
 
-case 'streaming': {
-    if (isGroup) return await reply('🚫 Silakan lihat produk di *chat pribadi*.');
-    if (cekUser("id", sender) == null) return; 
+            const listMessage = {
+               text: title,
+               footer: "Klik produk untuk melihat daftar harganya.",
+               title: "Daftar Kuota & Pulsa",
+               buttonText: "Lihat Produk Kuota & Pulsa",
+               sections: sections
+            };
 
-    const title = "📺 *TOP UP Streaming & Buy Aplikasi Premium* 📺";
-    const sections = [{
-        title: "Pilih Streaming & Aplikasi Premium Favoritmu",
-        rows: [
-             {
-                        title: 'Viu',
-                        rowId: `${prefix}viu`,
-                        description: '📺 Viu Premium, drakor & film tanpa iklan!'
-                     },
-                     {
-                        title: 'Alight Motion',
-                        rowId: `${prefix}alight`,
-                        description: '🎬 Alight Motion Pro, edit video ala profesional!'
-                     },
-                     {
-                        title: 'YouTube Premium',
-                        rowId: `${prefix}yt`,
-                        description: '🎥 YouTube Premium, streaming bebas iklan & offline!'
-                     },
-                     {
-                        title: 'Vidio Premium',
-                        rowId: `${prefix}vd`,
-                        description: '📽️ Vidio Premium, olahraga & hiburan lokal terbaik!'
-                     },
-                     {
-                        title: 'WIFI ID',
-                        rowId: `${prefix}wifiid`,
-                        description: '📶 Voucher WIFI ID, internet cepat di mana saja!'
-                     },
-                     {
-                        title: 'Transvision',
-                        rowId: `${prefix}transvision`,
-                        description: '📡 Transvision, TV satelit dengan channel premium!'
-                     },
-                     {
-                        title: 'TIX ID',
-                        rowId: `${prefix}tixid`,
-                        description: '🎫 TIX ID, tiket bioskop & event seru instan!'
-                     },
-                     {
-                        title: 'Starpass',
-                        rowId: `${prefix}starpass`,
-                        description: '🌟 Starpass, buka fitur premium aplikasi favoritmu!'
-                     },
-                     {
-                        title: 'StarMaker',
-                        rowId: `${prefix}starmaker`,
-                        description: '🎤 StarMaker, koin untuk karaoke sosial seru!'
-                     },
-                     {
-                        title: 'Spotify',
-                        rowId: `${prefix}spotify`,
-                        description: '🎶 Spotify Premium, musik tanpa batas & iklan!'
-                     },
-                     {
-                        title: 'CapCut',
-                        rowId: `${prefix}capcut`,
-                        description: '🎥 CapCut Pro, edit video kece tanpa watermark!'
-                     },
-                     {
-                        title: 'Bigo Live',
-                        rowId: `${prefix}bigo`,
-                        description: '📽️ Diamonds Bigo, dukung streamer favorit!'
-                     },
-                     {
-                        title: 'Canva',
-                        rowId: `${prefix}canva`,
-                        description: '🎨 Canva Pro, desain keren tanpa batas!'
-                     },
-                     {
-                        title: 'Disney+',
-                        rowId: `${prefix}disney`,
-                        description: '🎥 Langganan Disney+, tonton film & serial!'
-                     },
-                     {
-                        title: 'Netflix',
-                        rowId: `${prefix}netflix`,
-                        description: '🎬 Langganan Netflix, nonton film & series sepuasnya!'
-                     },
-                     {
-                        title: 'Zoom Pro',
-                        rowId: `${prefix}zoom`,
-                        description: '💻 Langganan Zoom Pro, meeting tanpa batas waktu!'
-                     },
-                     {
-                        title: 'Youku VIP',
-                        rowId: `${prefix}youku`,
-                        description: '📺 Langganan Youku VIP, nikmati drama & film Asia!'
-                     },
-                     {
-                        title: 'ExpressVPN Premium',
-                        rowId: `${prefix}expressvpn`,
-                        description: '🔒 Langganan ExpressVPN, internet aman & cepat!'
-                     },
-                     {
-                        title: 'HMA VPN',
-                        rowId: `${prefix}hmavpn`,
-                        description: '🔒 Langganan HMA VPN, jelajahi internet tanpa batas!'
-                     },
-                     {
-                        title: 'Surfshark VPN',
-                        rowId: `${prefix}surfsharkvpn`,
-                        description: '🔒 Langganan Surfshark VPN, privasi & keamanan terjamin!'
-                     },
-                     {
-                        title: 'Spotify Premium',
-                        rowId: `${prefix}spotify`,
-                        description: '🎵 Langganan Spotify Premium, musik tanpa iklan!'
-                     },
-                     {
-                        title: 'Scribd Premium',
-                        rowId: `${prefix}scribd`,
-                        description: '📚 Langganan Scribd Premium, akses buku & dokumen!'
-                     },
-                     {
-                        title: 'Remini Pro',
-                        rowId: `${prefix}remini`,
-                        description: '🖼️ Langganan Remini Pro, edit foto jadi lebih tajam!'
-                     },
-                     {
-                        title: 'Prime Video',
-                        rowId: `${prefix}primevideo`,
-                        description: '📺 Langganan Prime Video, tonton film & series eksklusif!'
-                     },
-                     {
-                        title: 'Iqiyi VIP',
-                        rowId: `${prefix}iqiyi`,
-                        description: '📺 Langganan Iqiyi VIP, nikmati drama Asia & film!'
-                     },
-                     {
-                        title: 'HBOGO & MAX',
-                        rowId: `${prefix}hbogo`,
-                        description: '📺 Langganan HBOGO & MAX, streaming film & series premium!'
-                     },
-                     {
-                        title: 'HBO',
-                        rowId: `${prefix}hbo`,
-                        description: '📺 Langganan HBO, nikmati film & series blockbuster!'
-                     },
-                     {
-                        title: 'G Suite',
-                        rowId: `${prefix}gsuite`,
-                        description: '💼 Langganan G Suite, produktivitas bisnis tanpa batas!'
-                     },
-                     {
-                        title: 'Gemini',
-                        rowId: `${prefix}gemini`,
-                        description: '🤖 Langganan Gemini, akses AI canggih untuk kebutuhanmu!'
-                     },
-                     {
-                        title: 'GDrive Lifetime',
-                        rowId: `${prefix}gdrive`,
-                        description: '💾 Langganan GDrive Lifetime, penyimpanan cloud tanpa batas!'
-                     },
-                     {
-                        title: 'Duolingo Plus',
-                        rowId: `${prefix}duolingo`,
-                        description: '📚 Langganan Duolingo Plus, belajar bahasa tanpa iklan!'
-                     },
-                     {
-                        title: 'DramaBox Premium',
-                        rowId: `${prefix}dramabox`,
-                        description: '📺 Langganan DramaBox Premium, tonton drama pendek seru!'
-                     },
-                     {
-                        title: 'ChatGPT Plus',
-                        rowId: `${prefix}chatgpt`,
-                        description: '🤖 Langganan ChatGPT Plus, AI cerdas untuk semua kebutuhan!'
-                     },
-                     {
-                        title: 'Bstation Premium',
-                        rowId: `${prefix}bstation`,
-                        description: '📺 Langganan Bstation Premium, nikmati anime & drama!'
-                     },
-                     {
-                        title: 'Apple Music',
-                        rowId: `${prefix}applemusic`,
-                        description: '🎵 Langganan Apple Music, streaming musik tanpa batas!'
-                     },
-                     {
-                        title: 'AI Perplexity Pro',
-                        rowId: `${prefix}perplexity`,
-                        description: '🤖 Langganan AI Perplexity Pro, pencarian AI canggih!'
-                     },
-                     {
-                        title: 'AI Blackbox',
-                        rowId: `${prefix}blackbox`,
-                        description: '🤖 Langganan AI Blackbox, solusi AI premium untukmu!'
-                     },
-                     {
-                        title: 'WeTV VIP',
-                        rowId: `${prefix}wetv`,
-                        description: '📺 Langganan WeTV VIP, tonton drama Asia bebas iklan!'
-                     },
-                     {
-                        title: 'PicsArt Pro',
-                        rowId: `${prefix}picsart`,
-                        description: '🖼️ Langganan PicsArt Pro, edit foto & video dengan fitur premium!'
-                     },
-        ]
-    }];
-    
-    const listMessage = {
-        text: title,
-        footer: "Klik produk untuk melihat daftar harganya.",
-        title: "Daftar Streaming & Aplikasi Premium",
-        buttonText: "Lihat Produk Streaming & Aplikasi Premium",
-        sections: sections
-    };
-    
-    await liwirya.sendMessage(from, listMessage, { quoted: msg });
-    break;
-}
-break
+            await liwirya.sendMessage(from, listMessage, {
+               quoted: msg
+            });
+            break;
+         }
+         break
+
+         case 'streaming': {
+            if (isGroup) return await reply('🚫 Silakan lihat produk di *chat pribadi*.');
+            if (cekUser("id", sender) == null) return;
+
+            const title = "📺 *TOP UP Streaming & Buy Aplikasi Premium* 📺";
+            const sections = [{
+               title: "Pilih Streaming & Aplikasi Premium Favoritmu",
+               rows: [{
+                     title: 'Viu',
+                     rowId: `${prefix}viu`,
+                     description: '📺 Viu Premium, drakor & film tanpa iklan!'
+                  },
+                  {
+                     title: 'Alight Motion',
+                     rowId: `${prefix}alight`,
+                     description: '🎬 Alight Motion Pro, edit video ala profesional!'
+                  },
+                  {
+                     title: 'YouTube Premium',
+                     rowId: `${prefix}yt`,
+                     description: '🎥 YouTube Premium, streaming bebas iklan & offline!'
+                  },
+                  {
+                     title: 'Vidio Premium',
+                     rowId: `${prefix}vd`,
+                     description: '📽️ Vidio Premium, olahraga & hiburan lokal terbaik!'
+                  },
+                  {
+                     title: 'WIFI ID',
+                     rowId: `${prefix}wifiid`,
+                     description: '📶 Voucher WIFI ID, internet cepat di mana saja!'
+                  },
+                  {
+                     title: 'Transvision',
+                     rowId: `${prefix}transvision`,
+                     description: '📡 Transvision, TV satelit dengan channel premium!'
+                  },
+                  {
+                     title: 'Starpass',
+                     rowId: `${prefix}starpass`,
+                     description: '🌟 Starpass, buka fitur premium aplikasi favoritmu!'
+                  },
+                  {
+                     title: 'StarMaker',
+                     rowId: `${prefix}starmaker`,
+                     description: '🎤 StarMaker, koin untuk karaoke sosial seru!'
+                  },
+                  {
+                     title: 'Spotify',
+                     rowId: `${prefix}spotify`,
+                     description: '🎶 Spotify Premium, musik tanpa batas & iklan!'
+                  },
+                  {
+                     title: 'CapCut',
+                     rowId: `${prefix}capcut`,
+                     description: '🎥 CapCut Pro, edit video kece tanpa watermark!'
+                  },
+                  {
+                     title: 'Bigo Live',
+                     rowId: `${prefix}bigo`,
+                     description: '📽️ Diamonds Bigo, dukung streamer favorit!'
+                  },
+                  {
+                     title: 'Canva',
+                     rowId: `${prefix}canva`,
+                     description: '🎨 Canva Pro, desain keren tanpa batas!'
+                  },
+                  {
+                     title: 'Disney+',
+                     rowId: `${prefix}disney`,
+                     description: '🎥 Langganan Disney+, tonton film & serial!'
+                  },
+                  {
+                     title: 'Netflix',
+                     rowId: `${prefix}netflix`,
+                     description: '🎬 Langganan Netflix, nonton film & series sepuasnya!'
+                  },
+                  {
+                     title: 'Zoom Pro',
+                     rowId: `${prefix}zoom`,
+                     description: '💻 Langganan Zoom Pro, meeting tanpa batas waktu!'
+                  },
+                  {
+                     title: 'Youku VIP',
+                     rowId: `${prefix}youku`,
+                     description: '📺 Langganan Youku VIP, nikmati drama & film Asia!'
+                  },
+                  {
+                     title: 'ExpressVPN Premium',
+                     rowId: `${prefix}expressvpn`,
+                     description: '🔒 Langganan ExpressVPN, internet aman & cepat!'
+                  },
+                  {
+                     title: 'HMA VPN',
+                     rowId: `${prefix}hmavpn`,
+                     description: '🔒 Langganan HMA VPN, jelajahi internet tanpa batas!'
+                  },
+                  {
+                     title: 'Surfshark VPN',
+                     rowId: `${prefix}surfsharkvpn`,
+                     description: '🔒 Langganan Surfshark VPN, privasi & keamanan terjamin!'
+                  },
+                  {
+                     title: 'Spotify Premium',
+                     rowId: `${prefix}spotify`,
+                     description: '🎵 Langganan Spotify Premium, musik tanpa iklan!'
+                  },
+                  {
+                     title: 'Scribd Premium',
+                     rowId: `${prefix}scribd`,
+                     description: '📚 Langganan Scribd Premium, akses buku & dokumen!'
+                  },
+                  {
+                     title: 'Remini Pro',
+                     rowId: `${prefix}remini`,
+                     description: '🖼️ Langganan Remini Pro, edit foto jadi lebih tajam!'
+                  },
+                  {
+                     title: 'Prime Video',
+                     rowId: `${prefix}primevideo`,
+                     description: '📺 Langganan Prime Video, tonton film & series eksklusif!'
+                  },
+                  {
+                     title: 'Iqiyi VIP',
+                     rowId: `${prefix}iqiyi`,
+                     description: '📺 Langganan Iqiyi VIP, nikmati drama Asia & film!'
+                  },
+                  {
+                     title: 'HBOGO & MAX',
+                     rowId: `${prefix}hbogo`,
+                     description: '📺 Langganan HBOGO & MAX, streaming film & series premium!'
+                  },
+                  {
+                     title: 'HBO',
+                     rowId: `${prefix}hbo`,
+                     description: '📺 Langganan HBO, nikmati film & series blockbuster!'
+                  },
+                  {
+                     title: 'G Suite',
+                     rowId: `${prefix}gsuite`,
+                     description: '💼 Langganan G Suite, produktivitas bisnis tanpa batas!'
+                  },
+                  {
+                     title: 'Gemini',
+                     rowId: `${prefix}gemini`,
+                     description: '🤖 Langganan Gemini, akses AI canggih untuk kebutuhanmu!'
+                  },
+                  {
+                     title: 'GDrive Lifetime',
+                     rowId: `${prefix}gdrive`,
+                     description: '💾 Langganan GDrive Lifetime, penyimpanan cloud tanpa batas!'
+                  },
+                  {
+                     title: 'Duolingo Plus',
+                     rowId: `${prefix}duolingo`,
+                     description: '📚 Langganan Duolingo Plus, belajar bahasa tanpa iklan!'
+                  },
+                  {
+                     title: 'DramaBox Premium',
+                     rowId: `${prefix}dramabox`,
+                     description: '📺 Langganan DramaBox Premium, tonton drama pendek seru!'
+                  },
+                  {
+                     title: 'ChatGPT Plus',
+                     rowId: `${prefix}chatgpt`,
+                     description: '🤖 Langganan ChatGPT Plus, AI cerdas untuk semua kebutuhan!'
+                  },
+                  {
+                     title: 'Bstation Premium',
+                     rowId: `${prefix}bstation`,
+                     description: '📺 Langganan Bstation Premium, nikmati anime & drama!'
+                  },
+                  {
+                     title: 'Apple Music',
+                     rowId: `${prefix}applemusic`,
+                     description: '🎵 Langganan Apple Music, streaming musik tanpa batas!'
+                  },
+                  {
+                     title: 'AI Perplexity Pro',
+                     rowId: `${prefix}perplexity`,
+                     description: '🤖 Langganan AI Perplexity Pro, pencarian AI canggih!'
+                  },
+                  {
+                     title: 'AI Blackbox',
+                     rowId: `${prefix}blackbox`,
+                     description: '🤖 Langganan AI Blackbox, solusi AI premium untukmu!'
+                  },
+                  {
+                     title: 'WeTV VIP',
+                     rowId: `${prefix}wetv`,
+                     description: '📺 Langganan WeTV VIP, tonton drama Asia bebas iklan!'
+                  },
+                  {
+                     title: 'PicsArt Pro',
+                     rowId: `${prefix}picsart`,
+                     description: '🖼️ Langganan PicsArt Pro, edit foto & video dengan fitur premium!'
+                  },
+               ]
+            }];
+
+            const listMessage = {
+               text: title,
+               footer: "Klik produk untuk melihat daftar harganya.",
+               title: "Daftar Streaming & Aplikasi Premium",
+               buttonText: "Lihat Produk Streaming & Aplikasi Premium",
+               sections: sections
+            };
+
+            await liwirya.sendMessage(from, listMessage, {
+               quoted: msg
+            });
+            break;
+         }
+         break
 
          case 'daftar': {
             if (cekUser("id", sender) !== null) {
@@ -3858,7 +3937,7 @@ break
                name: namaDefault,
                seri: seriUnik,
                premium: false,
-               registered_at: tanggalRegistrasi.toISOString() 
+               registered_at: tanggalRegistrasi.toISOString()
             };
             db_user.push(object_user);
             fs.writeFileSync('./database/pengguna.json', JSON.stringify(db_user, null, 2));
@@ -3927,17 +4006,17 @@ Silakan klik tombol di bawah untuk memulai perjalanan Anda bersama kami.
             break;
          }
          break;
-         
+
          case 'gantinama': {
-    if (cekUser("id", sender) == null) {
-        return reply('🚫 *Akses Ditolak!*\nAnda harus terdaftar untuk menggunakan fitur ini. Silakan ketik *.daftar* terlebih dahulu.');
-    }
+            if (cekUser("id", sender) == null) {
+               return reply('🚫 *Akses Ditolak!*\nAnda harus terdaftar untuk menggunakan fitur ini. Silakan ketik *.daftar* terlebih dahulu.');
+            }
 
-    const newName = q.trim();
+            const newName = q.trim();
 
-    if (!newName) {
-        const currentUser = db_user.find(u => u.id === sender);
-        const usageCard = `
+            if (!newName) {
+               const currentUser = db_user.find(u => u.id === sender);
+               const usageCard = `
 ╔═══ ≪ *GANTI NAMA PENGGUNA* ≫ ═══╗
 ║
 ║   Fitur ini digunakan untuk mengubah
@@ -3953,31 +4032,31 @@ Silakan klik tombol di bawah untuk memulai perjalanan Anda bersama kami.
 ║   \`\`\`${prefix}gantinama Budi Gaming\`\`\`
 ║
 ╚══════════════════════════════╝`;
-        return reply(usageCard);
-    }
+               return reply(usageCard);
+            }
 
-    if (newName.length < 3) {
-        return reply('❌ *Nama Terlalu Pendek!*\nNama pengguna harus memiliki minimal 3 karakter.');
-    }
-    if (newName.length > 20) {
-        return reply('❌ *Nama Terlalu Panjang!*\nNama pengguna tidak boleh lebih dari 20 karakter.');
-    }
-    if (!/^[a-zA-Z0-9 ]+$/.test(newName)) {
-        return reply('❌ *Karakter Tidak Valid!*\nNama hanya boleh mengandung huruf (A-Z), angka (0-9), dan spasi.');
-    }
+            if (newName.length < 3) {
+               return reply('❌ *Nama Terlalu Pendek!*\nNama pengguna harus memiliki minimal 3 karakter.');
+            }
+            if (newName.length > 20) {
+               return reply('❌ *Nama Terlalu Panjang!*\nNama pengguna tidak boleh lebih dari 20 karakter.');
+            }
+            if (!/^[a-zA-Z0-9 ]+$/.test(newName)) {
+               return reply('❌ *Karakter Tidak Valid!*\nNama hanya boleh mengandung huruf (A-Z), angka (0-9), dan spasi.');
+            }
 
-    try {
-        const userIndex = db_user.findIndex(u => u.id === sender);
-        const oldName = db_user[userIndex].name;
+            try {
+               const userIndex = db_user.findIndex(u => u.id === sender);
+               const oldName = db_user[userIndex].name;
 
-        if (oldName.toLowerCase() === newName.toLowerCase()) {
-            return reply(`💡 Nama Anda sudah *${newName}*. Tidak ada perubahan yang dilakukan.`);
-        }
+               if (oldName.toLowerCase() === newName.toLowerCase()) {
+                  return reply(`💡 Nama Anda sudah *${newName}*. Tidak ada perubahan yang dilakukan.`);
+               }
 
-        db_user[userIndex].name = newName;
-        fs.writeFileSync('./database/pengguna.json', JSON.stringify(db_user, null, 2));
+               db_user[userIndex].name = newName;
+               fs.writeFileSync('./database/pengguna.json', JSON.stringify(db_user, null, 2));
 
-        const successCard = `
+               const successCard = `
 ✅ *NAMA BERHASIL DIPERBARUI* ✅
 
 Informasi nama panggilan Anda di *${global.namaStore}* telah berhasil diubah.
@@ -3993,376 +4072,524 @@ Informasi nama panggilan Anda di *${global.namaStore}* telah berhasil diubah.
 ╰───────────────────────╯
 
 Perubahan ini akan langsung terlihat saat Anda menggunakan perintah *.menu* berikutnya.`;
-        
-        await reply(successCard);
 
-    } catch (error) {
-        console.error("Error di case 'gantinama':", error);
-        await reply('⚠️ *Operasi Gagal!*\nTerjadi kesalahan internal saat mencoba memperbarui nama Anda. Silakan hubungi Owner.');
-    }
-    
-    break;
-}
+               await reply(successCard);
+
+            } catch (error) {
+               console.error("Error di case 'gantinama':", error);
+               await reply('⚠️ *Operasi Gagal!*\nTerjadi kesalahan internal saat mencoba memperbarui nama Anda. Silakan hubungi Owner.');
+            }
+
+            break;
+         }
 
          case 'topupgame': {
             if (cekUser("id", sender) == null) {
-               return await liwirya.sendMessage(from, {
-                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
-                  mentions: [global.ownerNumber, sender]
-               }, {
-                  quoted: fkontak
-               });
+               return await reply('🚫 *Anda Belum Terdaftar!*\nSilakan ketik *.daftar* untuk membuat akun.');
             }
-
             if (isGroup) {
-               return await reply('🚫 *Maaf, perintah ini hanya bisa digunakan di private chat (PM)!*');
+               return await reply('🚫 Fitur top up game hanya bisa diakses melalui *chat pribadi*.');
             }
-
-            const tanggal = new Date();
-            const hari = tanggal.toLocaleDateString('id-ID', {
-               weekday: 'long'
-            });
-            const tglFormat = tanggal.toLocaleDateString('id-ID', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            });
-            const jam = tanggal.toLocaleTimeString('id-ID', {
-               hour: '2-digit',
-               minute: '2-digit',
-               timeZone: 'Asia/Jakarta'
-            });
 
             try {
+               const user = db_user.find(u => u.id === sender);
+               const userName = user?.name || pushname;
+               const userBalance = toRupiah(cekSaldo(sender, db_saldo));
+
+               const gameCenterHeader = `
+╔═════════════════╗
+║        🎮 *GAME CENTER* 🎮     ║
+╚═════════════════╝
+
+Selamat datang di Game Center, *${userName}*!
+Pilih genre game yang ingin Anda top up.
+
+╭─── 💳 *Status Akun* ───╮
+│
+│  *Saldo Anda Saat Ini:*
+│  > *Rp${userBalance},-*
+│
+╰──────────────╯
+`;
+
                const sections = [{
-                  title: '🎮 Top Up Game Favorit',
+                  title: "Pilih Genre Game",
                   rows: [{
-                        title: 'Free Fire',
-                        rowId: `${prefix}ff`,
-                        description: '🔥 Top up FF murah, siap booyah tiap hari!'
+                        title: "⚔️ MOBA",
+                        rowId: `${prefix}game_moba`,
+                        description: "Mobile Legends, Arena of Valor, Honor of Kings, dll."
                      },
                      {
-                        title: 'PUBG Mobile',
-                        rowId: `${prefix}pubg`,
-                        description: '🎯 UC PUBG hemat, dominasi medan perang!'
+                        title: "🔫 Battle Royale & Shooter",
+                        rowId: `${prefix}game_br`,
+                        description: "Free Fire, PUBG, CODM, Valorant, Farlight 84, dll."
                      },
                      {
-                        title: 'Mobile Legends (Lokal)',
-                        rowId: `${prefix}mlid`,
-                        description: '⚔️ Diamond ML lokal, murah & cepat!'
+                        title: "✨ RPG & Gacha",
+                        rowId: `${prefix}game_rpg`,
+                        description: "Genshin, Honkai, Tower of Fantasy, Nikke, dll."
                      },
                      {
-                        title: 'Mobile Legends (Global)',
-                        rowId: `${prefix}mlgb`,
-                        description: '🌍 Diamond ML global, stok selalu ada!'
+                        title: "🏰 Strategi & Simulasi",
+                        rowId: `${prefix}game_strategy`,
+                        description: "Clash of Clans, The Ants, Rise of Kingdoms, dll."
                      },
                      {
-                        title: 'Call of Duty Mobile',
-                        rowId: `${prefix}cod`,
-                        description: '🔫 CP CODM murah, gaspol ke battlefield!'
+                        title: "⚽ Olahraga & Balapan",
+                        rowId: `${prefix}game_sports`,
+                        description: "FC Mobile, Asphalt 9, Ace Racer, 8 Ball Pool, dll."
                      },
                      {
-                        title: 'Genshin Impact',
-                        rowId: `${prefix}genshin`,
-                        description: '✨ Genesis Crystal untuk gacha impianmu!'
-                     },
-                     {
-                        title: 'Stumble Guys',
-                        rowId: `${prefix}stumble`,
-                        description: '🤩 Gems SG, lari seru tanpa jatuh!'
-                     },
-                     {
-                        title: 'Point Blank',
-                        rowId: `${prefix}pb`,
-                        description: '💥 Cash PB, jadi trooper legendaris!'
-                     },
-                     {
-                        title: 'Asphalt 9',
-                        rowId: `${prefix}asphalt`,
-                        description: '🏎️ Token Asphalt 9, kebut di lintasan!'
-                     },
-                     {
-                        title: 'Astral Guardian',
-                        rowId: `${prefix}astralg`,
-                        description: '🌌 Top up Astral Guardian, kuasai galaksi!'
-                     },
-                     {
-                        title: 'Honor of Kings',
-                        rowId: `${prefix}hok`,
-                        description: '🏆 Token HoK, jadi legenda di arena!'
-                     },
-                     {
-                        title: 'Ace Racer',
-                        rowId: `${prefix}arc`,
-                        description: '🚗 Koin Ace Racer, kejar podium juara!'
-                     },
-                     {
-                        title: '8 Ball Pool',
-                        rowId: `${prefix}8bl`,
-                        description: '🎱 Cash 8 Ball Pool, kuasai meja biliar!'
-                     },
-                     {
-                        title: 'Arena Breakout',
-                        rowId: `${prefix}ab`,
-                        description: '🔪 Top up Arena Breakout, taklukkan musuh!'
-                     },
-                     {
-                        title: 'Arena of Valor',
-                        rowId: `${prefix}aov`,
-                        description: '⚡ Voucher AoV, menuju kemenangan epik!'
-                     },
-                     {
-                        title: 'Valorant',
-                        rowId: `${prefix}valorant`,
-                        description: '🎯 Valorant Points, unlock skin & agent kece!'
-                     },
-                     {
-                        title: 'Garena Undawn',
-                        rowId: `${prefix}undawn`,
-                        description: '🧟‍♂️ RC Undawn, bertahan dari serangan zombie!'
-                     },
-                     {
-                        title: 'Zepeto',
-                        rowId: `${prefix}zepeto`,
-                        description: '💃 ZEMs & Coins, style avatar kerenmu!'
-                     },
-                     {
-                        title: 'Roblox',
-                        rowId: `${prefix}roblox`,
-                        description: '🎮 Robux, ciptakan petualangan epikmu!'
-                     },
-                     {
-                        title: 'Werewolf (Party Game)',
-                        rowId: `${prefix}werewolf`,
-                        description: '🐺 Top up Werewolf, jadi alpha di pesta!'
-                     },
-                     {
-                        title: 'Watcher of Realms',
-                        rowId: `${prefix}watcherofrealms`,
-                        description: '🛡️ Gems Watcher, taklukkan dunia fantasi!'
-                     },
-                     {
-                        title: 'Tower of Fantasy',
-                        rowId: `${prefix}tof`,
-                        description: '🌌 Tanium ToF, jelajahi dunia open-world!'
-                     },
-                     {
-                        title: 'Tom and Jerry: Chase',
-                        rowId: `${prefix}tnj`,
-                        description: '🐱‍👤 Koin TnJ, kejar atau lari seru!'
-                     },
-                     {
-                        title: 'The Ants: Underground Kingdom',
-                        rowId: `${prefix}ants`,
-                        description: '🐜 Diamond Ants, bangun kerajaan semute!'
-                     },
-                     {
-                        title: 'Super Sus',
-                        rowId: `${prefix}supersus`,
-                        description: '🚀 Gold Super Sus, unggul di luar angkasa!'
-                     },
-                     {
-                        title: 'State of Survival',
-                        rowId: `${prefix}sos`,
-                        description: '🧟 Biocaps SoS, bertahan di dunia zombie!'
-                     },
-                     {
-                        title: 'Speed Drifters',
-                        rowId: `${prefix}speeddrifters`,
-                        description: '🏁 Koin Speed Drifters, gaspol di lintasan!'
-                     },
-                     {
-                        title: 'Snowbreak: Containment Zone',
-                        rowId: `${prefix}snowbreak`,
-                        description: '❄️ Crystal Snowbreak, lawan titan di masa depan!'
-                     },
-                     {
-                        title: 'Dragonheir: Silent Gods',
-                        rowId: `${prefix}dragonheir`,
-                        description: '🐉 Heliolite Dice, petualang di dunia fantasi!'
-                     },
-                     {
-                        title: 'Hatsune Miku: Colorful Stage!',
-                        rowId: `${prefix}hatsunemiku`,
-                        description: '🎤 Crystals Miku, mainkan ritme dengan Vocaloid!'
-                     },
-                     {
-                        title: 'Honkai Impact 3',
-                        rowId: `${prefix}honkai`,
-                        description: '🌌 Crystals Honkai, bertarung dengan Valkyrie!'
-                     },
-                     {
-                        title: 'Light of Thel: New Era',
-                        rowId: `${prefix}thel`,
-                        description: '⚡ Diamonds Thel, kuasai dunia MMORPG epik!'
-                     },
-                     {
-                        title: 'Auto Chess',
-                        rowId: `${prefix}autochess`,
-                        description: '♟️ Candies Auto Chess, atur strategi di papan catur!'
-                     },
-                     {
-                        title: 'King God Palace',
-                        rowId: `${prefix}kinggod`,
-                        description: '🏰 Gems KGP, menang di auto chess epik!'
-                     },
-                     {
-                        title: 'Be The King',
-                        rowId: `${prefix}betheking`,
-                        description: '👑 Jade Be The King, jadi raja di kerajaan!'
-                     },
-                     {
-                        title: 'Bleach Mobile 3D',
-                        rowId: `${prefix}bleach`,
-                        description: '⚔️ Crystals Bleach, bertarung ala Soul Reaper!'
-                     },
-                     {
-                        title: 'Bullet Angel',
-                        rowId: `${prefix}bulletangel`,
-                        description: '🔫 Diamonds Bullet Angel, tembak di battle royale!'
-                     },
-                     {
-                        title: 'Chaos Crisis',
-                        rowId: `${prefix}chaoscrisis`,
-                        description: '🌪️ Gems Chaos Crisis, kuasai kekacauan epik!'
-                     },
-                     {
-                        title: 'Clash of Clans',
-                        rowId: `${prefix}coc`,
-                        description: '🏰 Gems CoC, bangun desa tak terkalahkan!'
-                     },
-                     {
-                        title: 'Clash Royale',
-                        rowId: `${prefix}clashroyale`,
-                        description: '🎴 Gems Clash Royale, menang di arena kartu!'
-                     },
-                     {
-                        title: 'Cloud Song',
-                        rowId: `${prefix}cloudsong`,
-                        description: '☁️ Diamonds Cloud Song, petualang di dunia awan!'
-                     },
-                     {
-                        title: 'Dark Continent Mist',
-                        rowId: `${prefix}darkcontinent`,
-                        description: '🌫️ Gems Dark Continent, jelajahi kabut misterius!'
-                     },
-                     {
-                        title: 'Dragon Raja - SEA',
-                        rowId: `${prefix}dragonraja`,
-                        description: '🐉 Coupons Raja, dominasi dunia MMORPG!'
-                     },
-                     {
-                        title: 'Eggy Party',
-                        rowId: `${prefix}eggyparty`,
-                        description: '🥚 Egg Coins, pesta seru ala Fall Guys!'
-                     },
-                     {
-                        title: 'Ensemble Stars Music',
-                        rowId: `${prefix}ensemble`,
-                        description: '🎶 Diamonds Ensemble, gacha idol terbaik!'
-                     },
-                     {
-                        title: 'EOS RED',
-                        rowId: `${prefix}eosred`,
-                        description: '⚔️ Gems EOS RED, petualangan MMORPG epik!'
-                     },
-                     {
-                        title: 'Era of Celestial',
-                        rowId: `${prefix}eraofcelestial`,
-                        description: '🌌 Diamonds Celestial, kuasai alam semesta!'
-                     },
-                     {
-                        title: 'Eternal City',
-                        rowId: `${prefix}eternalcity`,
-                        description: '🏰 Gems Eternal City, jelajahi kota abadi!'
-                     },
-                     {
-                        title: 'Farlight 84',
-                        rowId: `${prefix}farlight`,
-                        description: '🔫 Diamonds Farlight, menang di battle royale!'
-                     },
-                     {
-                        title: 'FC Mobile',
-                        rowId: `${prefix}fcmobile`,
-                        description: '⚽ FIFA Points, jadi bintang lapangan!'
-                     },
-                     {
-                        title: 'Football Master 2',
-                        rowId: `${prefix}footballmaster`,
-                        description: '⚽ Gems FM2, kelola tim juara!'
-                     },
-                     {
-                        title: 'Goddess of Victory: Nikke',
-                        rowId: `${prefix}nikke`,
-                        description: '🔫 Gems Nikke, tembak dengan waifu!'
-                     },
-                     {
-                        title: 'Growtopia',
-                        rowId: `${prefix}growtopia`,
-                        description: '🌱 Gems Growtopia, bangun dunia kreatif!'
-                     },
-                     {
-                        title: 'Harry Potter: Magic Awakened',
-                        rowId: `${prefix}harrypotter`,
-                        description: '🪄 Gems HP, sihir di dunia Hogwarts!'
-                     },
-                     {
-                        title: 'Heroes Evolved',
-                        rowId: `${prefix}heroes`,
-                        description: '⚡ Tokens Heroes, menang di arena MOBA!'
-                     },
-                     {
-                        title: 'Honkai Star Rail',
-                        rowId: `${prefix}starrail`,
-                        description: '🌌 Stellar Jade, gacha di galaksi epik!'
-                     },
-                     {
-                        title: 'Hyper Front',
-                        rowId: `${prefix}hyperfront`,
-                        description: '🔫 Credits Hyper Front, tembak ala Valorant!'
-                     },
-                     {
-                        title: 'Identity V',
-                        rowId: `${prefix}identityv`,
-                        description: '🕵️‍♂️ Echoes Identity V, selamat dari horor!'
-                     },
-                     {
-                        title: 'IndoPlay',
-                        rowId: `${prefix}indoplay`,
-                        description: '🎲 Chips IndoPlay, menang di mini-game seru!'
+                        title: "🎉 Casual & Party Game",
+                        rowId: `${prefix}game_casual`,
+                        description: "Stumble Guys, Roblox, Zepeto, Eggy Party, dll."
                      }
                   ]
                }];
 
                const listMessage = {
-                  text: `
-🎮 *Top Up Game Favorit Anda!* 🎮\n
-
-📅 *Tanggal*: ${hari}, ${tglFormat} 
-🕛 *Waktu*: ${jam}
-👤 *Nama*: ${pushname}
-💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
-
-💡 *Cara Topup*: Pilih game di bawah, lalu ikuti instruksi.
-            `,
-                  footer: `⚡ Total Game: ${sections[0].rows.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
-                  buttonText: '🔍 Pilih Game',
-                  sections,
-                  mentions: [global.ownerNumber]
+                  text: gameCenterHeader,
+                  footer: `Pilih genre untuk melihat daftar game yang tersedia.`,
+                  title: "Navigasi Game Center",
+                  buttonText: 'Pilih Genre',
+                  sections: sections
                };
 
                await liwirya.sendMessage(from, listMessage, {
-                  quoted: fkontak
+                  quoted: msg
                });
+
             } catch (error) {
-               console.error('Error in topupgame:', error);
-               await liwirya.sendMessage(from, {
-                  text: `❌ *Terjadi kesalahan saat memuat daftar game.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
-                  mentions: [global.ownerNumber]
-               }, {
-                  quoted: fkontak
-               });
+               console.error("Error di case 'topupgame':", error);
+               await reply('⚠️ Terjadi kesalahan saat memuat Game Center.');
             }
+            break;
+         }
+         break
+
+         // CASE UNTUK KATEGORI MOBA
+         case 'game_moba': {
+            if (isGroup) return;
+            if (cekUser("id", sender) == null) return;
+            const headerText = "⚔️ *Kategori: MOBA* ⚔️\nPilih game MOBA yang ingin Anda top up.";
+            const sections = [{
+               title: "Daftar Game MOBA",
+               rows: [{
+                     title: 'Mobile Legends (Lokal)',
+                     rowId: `${prefix}mlid`,
+                     description: 'Diamond ML lokal, murah & cepat!'
+                  },
+                  {
+                     title: 'Mobile Legends (Global)',
+                     rowId: `${prefix}mlgb`,
+                     description: 'Diamond ML global, stok selalu ada!'
+                  },
+                  {
+                     title: 'Arena of Valor',
+                     rowId: `${prefix}aov`,
+                     description: 'Voucher AoV, menuju kemenangan epik!'
+                  },
+                  {
+                     title: 'Honor of Kings',
+                     rowId: `${prefix}hok`,
+                     description: 'Token HoK, jadi legenda di arena!'
+                  },
+                  {
+                     title: 'Heroes Evolved',
+                     rowId: `${prefix}heroes`,
+                     description: 'Tokens Heroes, menang di arena MOBA!'
+                  },
+                  {
+                     title: 'Light of Thel: New Era',
+                     rowId: `${prefix}thel`,
+                     description: 'Diamonds Thel, kuasai dunia MMORPG epik!'
+                  }
+               ]
+            }];
+            const listMessage = {
+               text: headerText,
+               footer: "Klik untuk melihat harga.",
+               title: "Game MOBA",
+               buttonText: "Pilih Game",
+               sections: sections
+            };
+            await liwirya.sendMessage(from, listMessage, {
+               quoted: msg
+            });
+            break;
+         }
+         break
+
+         // CASE UNTUK KATEGORI BATTLE ROYALE & SHOOTER
+         case 'game_br': {
+            if (isGroup) return;
+            if (cekUser("id", sender) == null) return;
+            const headerText = "🔫 *Kategori: Battle Royale & Shooter* 🔫\nPilih game tembak-tembakan favoritmu.";
+            const sections = [{
+               title: "Daftar Game BR & Shooter",
+               rows: [{
+                     title: 'Free Fire',
+                     rowId: `${prefix}ff`,
+                     description: 'Top up FF murah, siap booyah tiap hari!'
+                  },
+                  {
+                     title: 'PUBG Mobile',
+                     rowId: `${prefix}pubg`,
+                     description: 'UC PUBG hemat, dominasi medan perang!'
+                  },
+                  {
+                     title: 'Call of Duty Mobile',
+                     rowId: `${prefix}cod`,
+                     description: 'CP CODM murah, gaspol ke battlefield!'
+                  },
+                  {
+                     title: 'Valorant',
+                     rowId: `${prefix}valorant`,
+                     description: 'Valorant Points, unlock skin & agent kece!'
+                  },
+                  {
+                     title: 'Farlight 84',
+                     rowId: `${prefix}farlight`,
+                     description: 'Diamonds Farlight, menang di battle royale!'
+                  },
+                  {
+                     title: 'Point Blank',
+                     rowId: `${prefix}pb`,
+                     description: 'Cash PB, jadi trooper legendaris!'
+                  },
+                  {
+                     title: 'Arena Breakout',
+                     rowId: `${prefix}ab`,
+                     description: 'Top up Arena Breakout, taklukkan musuh!'
+                  },
+                  {
+                     title: 'Garena Undawn',
+                     rowId: `${prefix}undawn`,
+                     description: 'RC Undawn, bertahan dari serangan zombie!'
+                  },
+                  {
+                     title: 'Hyper Front',
+                     rowId: `${prefix}hyperfront`,
+                     description: 'Credits Hyper Front, tembak ala Valorant!'
+                  },
+                  {
+                     title: 'Bullet Angel',
+                     rowId: `${prefix}bulletangel`,
+                     description: 'Diamonds Bullet Angel, tembak di battle royale!'
+                  },
+                  {
+                     title: 'Sausage Man',
+                     rowId: `${prefix}sausageman`,
+                     description: 'Top up Sausage Man cepat & harga bersahabat!'
+                  }
+               ]
+            }];
+            const listMessage = {
+               text: headerText,
+               footer: "Klik untuk melihat harga.",
+               title: "Game BR/Shooter",
+               buttonText: "Pilih Game",
+               sections: sections
+            };
+            await liwirya.sendMessage(from, listMessage, {
+               quoted: msg
+            });
+            break;
+         }
+         break
+
+         // CASE UNTUK KATEGORI RPG & GACHA
+         case 'game_rpg': {
+            if (isGroup) return;
+            if (cekUser("id", sender) == null) return;
+            const headerText = "✨ *Kategori: RPG & Gacha* ✨\nTemukan item untuk petualangan epikmu.";
+            const sections = [{
+               title: "Daftar Game RPG & Gacha",
+               rows: [{
+                     title: 'Genshin Impact',
+                     rowId: `${prefix}genshin`,
+                     description: 'Genesis Crystal untuk gacha impianmu!'
+                  },
+                  {
+                     title: 'Honkai Star Rail',
+                     rowId: `${prefix}starrail`,
+                     description: 'Stellar Jade, gacha di galaksi epik!'
+                  },
+                  {
+                     title: 'Honkai Impact 3',
+                     rowId: `${prefix}honkai`,
+                     description: 'Crystals Honkai, bertarung dengan Valkyrie!'
+                  },
+                  {
+                     title: 'Goddess of Victory: Nikke',
+                     rowId: `${prefix}nikke`,
+                     description: 'Gems Nikke, tembak dengan waifu!'
+                  },
+                  {
+                     title: 'Tower of Fantasy',
+                     rowId: `${prefix}tof`,
+                     description: 'Tanium ToF, jelajahi dunia open-world!'
+                  },
+                  {
+                     title: 'Dragonheir: Silent Gods',
+                     rowId: `${prefix}dragonheir`,
+                     description: 'Heliolite Dice, petualang di dunia fantasi!'
+                  },
+                  {
+                     title: 'Watcher of Realms',
+                     rowId: `${prefix}watcherofrealms`,
+                     description: 'Gems Watcher, taklukkan dunia fantasi!'
+                  },
+                  {
+                     title: 'Astral Guardian',
+                     rowId: `${prefix}astralg`,
+                     description: 'Top up Astral Guardian, kuasai galaksi!'
+                  },
+                  {
+                     title: 'Bleach Mobile 3D',
+                     rowId: `${prefix}bleach`,
+                     description: 'Crystals Bleach, bertarung ala Soul Reaper!'
+                  },
+                  {
+                     title: 'Cloud Song',
+                     rowId: `${prefix}cloudsong`,
+                     description: 'Diamonds Cloud Song, petualang di dunia awan!'
+                  },
+                  {
+                     title: 'Dragon Raja - SEA',
+                     rowId: `${prefix}dragonraja`,
+                     description: 'Coupons Raja, dominasi dunia MMORPG!'
+                  },
+                  {
+                     title: 'EOS RED',
+                     rowId: `${prefix}eosred`,
+                     description: 'Gems EOS RED, petualangan MMORPG epik!'
+                  },
+                  {
+                     title: 'Era of Celestial',
+                     rowId: `${prefix}eraofcelestial`,
+                     description: 'Diamonds Celestial, kuasai alam semesta!'
+                  },
+                  {
+                     title: 'Harry Potter: Magic Awakened',
+                     rowId: `${prefix}harrypotter`,
+                     description: 'Gems HP, sihir di dunia Hogwarts!'
+                  },
+                  {
+                     title: 'Ragnarok X Next Generation',
+                     rowId: `${prefix}ragnarokx`,
+                     description: 'Top up Ragnarok X: Next Generation cepat & aman!'
+                  },
+                  {
+                     title: 'Ragnarok Origin',
+                     rowId: `${prefix}ragnarokorigin`,
+                     description: 'Top up Ragnarok Origin langsung masuk!'
+                  },
+                  {
+                     title: 'Ragnarok M: Eternal Love',
+                     rowId: `${prefix}ragnarokm`,
+                     description: 'Top up Ragnarok M: Eternal Love tanpa ribet!'
+                  }
+               ]
+            }];
+            const listMessage = {
+               text: headerText,
+               footer: "Klik untuk melihat harga.",
+               title: "Game RPG/Gacha",
+               buttonText: "Pilih Game",
+               sections: sections
+            };
+            await liwirya.sendMessage(from, listMessage, {
+               quoted: msg
+            });
+            break;
+         }
+         break
+
+         // CASE UNTUK KATEGORI STRATEGI & SIMULASI
+         case 'game_strategy': {
+            if (isGroup) return;
+            if (cekUser("id", sender) == null) return;
+            const headerText = "🏰 *Kategori: Strategi & Simulasi* 🏰\nBangun kerajaan dan atur strategimu.";
+            const sections = [{
+               title: "Daftar Game Strategi & Simulasi",
+               rows: [{
+                     title: 'Clash of Clans',
+                     rowId: `${prefix}coc`,
+                     description: 'Gems CoC, bangun desa tak terkalahkan!'
+                  },
+                  {
+                     title: 'Clash Royale',
+                     rowId: `${prefix}clashroyale`,
+                     description: 'Gems Clash Royale, menang di arena kartu!'
+                  },
+                  {
+                     title: 'The Ants: Underground Kingdom',
+                     rowId: `${prefix}ants`,
+                     description: 'Diamond Ants, bangun kerajaan semut!'
+                  },
+                  {
+                     title: 'State of Survival',
+                     rowId: `${prefix}sos`,
+                     description: 'Biocaps SoS, bertahan di dunia zombie!'
+                  },
+                  {
+                     title: 'Rise of Kingdoms',
+                     rowId: `${prefix}riseofkingdoms`,
+                     description: 'Top up Rise of Kingdoms cepat dan terpercaya!'
+                  },
+                  {
+                     title: 'Auto Chess',
+                     rowId: `${prefix}autochess`,
+                     description: 'Candies Auto Chess, atur strategi di papan catur!'
+                  },
+                  {
+                     title: 'King God Palace',
+                     rowId: `${prefix}kinggod`,
+                     description: 'Gems KGP, menang di auto chess epik!'
+                  },
+                  {
+                     title: 'Be The King',
+                     rowId: `${prefix}betheking`,
+                     description: 'Jade Be The King, jadi raja di kerajaan!'
+                  }
+               ]
+            }];
+            const listMessage = {
+               text: headerText,
+               footer: "Klik untuk melihat harga.",
+               title: "Game Strategi",
+               buttonText: "Pilih Game",
+               sections: sections
+            };
+            await liwirya.sendMessage(from, listMessage, {
+               quoted: msg
+            });
+            break;
+         }
+         break
+
+         // CASE UNTUK KATEGORI OLAHRAGA & BALAPAN
+         case 'game_sports': {
+            if (isGroup) return;
+            if (cekUser("id", sender) == null) return;
+            const headerText = "⚽ *Kategori: Olahraga & Balapan* ⚽\nJadilah juara di lapangan dan lintasan.";
+            const sections = [{
+               title: "Daftar Game Olahraga & Balapan",
+               rows: [{
+                     title: 'FC Mobile',
+                     rowId: `${prefix}fcmobile`,
+                     description: 'FIFA Points, jadi bintang lapangan!'
+                  },
+                  {
+                     title: 'Football Master 2',
+                     rowId: `${prefix}footballmaster`,
+                     description: 'Gems FM2, kelola tim juara!'
+                  },
+                  {
+                     title: 'Asphalt 9',
+                     rowId: `${prefix}asphalt`,
+                     description: 'Token Asphalt 9, kebut di lintasan!'
+                  },
+                  {
+                     title: 'Ace Racer',
+                     rowId: `${prefix}arc`,
+                     description: 'Koin Ace Racer, kejar podium juara!'
+                  },
+                  {
+                     title: '8 Ball Pool',
+                     rowId: `${prefix}8bl`,
+                     description: 'Cash 8 Ball Pool, kuasai meja biliar!'
+                  },
+                  {
+                     title: 'Speed Drifters',
+                     rowId: `${prefix}speeddrifters`,
+                     description: 'Koin Speed Drifters, gaspol di lintasan!'
+                  }
+               ]
+            }];
+            const listMessage = {
+               text: headerText,
+               footer: "Klik untuk melihat harga.",
+               title: "Game Sports/Racing",
+               buttonText: "Pilih Game",
+               sections: sections
+            };
+            await liwirya.sendMessage(from, listMessage, {
+               quoted: msg
+            });
+            break;
+         }
+
+         // CASE UNTUK KATEGORI CASUAL & PARTY GAME
+         case 'game_casual': {
+            if (isGroup) return;
+            if (cekUser("id", sender) == null) return;
+            const headerText = "🎉 *Kategori: Casual & Party Game* 🎉\nMain santai dan seru-seruan bareng teman.";
+            const sections = [{
+               title: "Daftar Game Casual & Pesta",
+               rows: [{
+                     title: 'Stumble Guys',
+                     rowId: `${prefix}stumble`,
+                     description: 'Gems SG, lari seru tanpa jatuh!'
+                  },
+                  {
+                     title: 'Roblox',
+                     rowId: `${prefix}roblox`,
+                     description: 'Robux, ciptakan petualangan epikmu!'
+                  },
+                  {
+                     title: 'Zepeto',
+                     rowId: `${prefix}zepeto`,
+                     description: 'ZEMs & Coins, style avatar kerenmu!'
+                  },
+                  {
+                     title: 'Growtopia',
+                     rowId: `${prefix}growtopia`,
+                     description: 'Gems Growtopia, bangun dunia kreatif!'
+                  },
+                  {
+                     title: 'Eggy Party',
+                     rowId: `${prefix}eggyparty`,
+                     description: 'Egg Coins, pesta seru ala Fall Guys!'
+                  },
+                  {
+                     title: 'Super Sus',
+                     rowId: `${prefix}supersus`,
+                     description: 'Gold Super Sus, unggul di luar angkasa!'
+                  },
+                  {
+                     title: 'Werewolf (Party Game)',
+                     rowId: `${prefix}werewolf`,
+                     description: 'Top up Werewolf, jadi alpha di pesta!'
+                  },
+                  {
+                     title: 'Tom and Jerry: Chase',
+                     rowId: `${prefix}tnj`,
+                     description: 'Koin TnJ, kejar atau lari seru!'
+                  },
+                  {
+                     title: 'Identity V',
+                     rowId: `${prefix}identityv`,
+                     description: 'Echoes Identity V, selamat dari horor!'
+                  },
+                  {
+                     title: 'IndoPlay',
+                     rowId: `${prefix}indoplay`,
+                     description: 'Chips IndoPlay, menang di mini-game seru!'
+                  }
+               ]
+            }];
+            const listMessage = {
+               text: headerText,
+               footer: "Klik untuk melihat harga.",
+               title: "Game Casual/Party",
+               buttonText: "Pilih Game",
+               sections: sections
+            };
+            await liwirya.sendMessage(from, listMessage, {
+               quoted: msg
+            });
             break;
          }
          break
@@ -4382,7 +4609,7 @@ Perubahan ini akan langsung terlihat saat Anda menggunakan perintah *.menu* beri
 
             try {
                const user = db_user.find(u => u.id === sender);
-               const userName = user?.name || pushname; 
+               const userName = user?.name || pushname;
                const userSerial = user?.seri || 'Tidak ada';
                const userBalance = toRupiah(cekSaldo(sender, db_saldo));
 
@@ -4459,132 +4686,117 @@ Berikut adalah rincian saldo dan informasi akun Anda saat ini.
 
          case 'pulpaket': {
             if (cekUser("id", sender) == null) {
-               return await liwirya.sendMessage(from, {
-                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
-                  mentions: [global.ownerNumber, sender]
-               }, {
-                  quoted: fkontak
-               });
+               return await reply('🚫 *Anda Belum Terdaftar!*\nSilakan ketik *.daftar* untuk membuat akun.');
             }
-
             if (isGroup) {
-               return await reply('🚫 *Maaf, perintah ini hanya bisa digunakan di private chat (PM)!*');
+               return await reply('🚫 Fitur ini hanya bisa diakses melalui *chat pribadi*.');
             }
-
-            const tanggal = new Date();
-            const hari = tanggal.toLocaleDateString('id-ID', {
-               weekday: 'long'
-            });
-            const tglFormat = tanggal.toLocaleDateString('id-ID', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            });
-            const jam = tanggal.toLocaleTimeString('id-ID', {
-               hour: '2-digit',
-               minute: '2-digit',
-               timeZone: 'Asia/Jakarta'
-            });
 
             try {
+               const user = db_user.find(u => u.id === sender);
+               const userName = user?.name || pushname;
+               const userBalance = toRupiah(cekSaldo(sender, db_saldo));
+
+               const reloadCenterCard = `
+╔═════════════════╗
+║     📱 *PUSAT ISI ULANG* 📱    ║
+╚═════════════════╝
+
+Selamat datang, *${userName}*!
+Pilih kategori layanan yang Anda butuhkan.
+
+╭─── 💳 *Saldo Anda* ───╮
+│
+│  *Rp${userBalance},-*
+│
+╰──────────────╯
+`;
+
                const sections = [{
-                     title: '📡 Kuota Internet',
+                     title: '📡 KUOTA INTERNET',
                      rows: [{
-                           title: 'Smartfren',
-                           rowId: `${prefix}smartfren`,
-                           description: '📶 Kuota Smartfren, streaming tanpa buffering!'
-                        },
-                        {
                            title: 'Telkomsel',
                            rowId: `${prefix}telkomsel`,
-                           description: '📱 Paket Telkomsel, internet stabil & kencang!'
+                           description: '📱 Paket internet tercepat & stabil.'
                         },
                         {
                            title: 'Indosat',
                            rowId: `${prefix}indosat`,
-                           description: '💛 Kuota IM3, internetan hemat setiap hari!'
+                           description: '💛 Kuota besar dengan harga hemat.'
                         },
                         {
-                           title: 'Axis',
+                           title: 'XL / Axis',
                            rowId: `${prefix}axis`,
-                           description: '🟣 Paket Axis, kuota melimpah harga murah!'
+                           description: '🟣 Paket internet kuota melimpah.'
                         },
                         {
                            title: 'Three',
                            rowId: `${prefix}three`,
-                           description: '3️⃣ Kuota Tri, online nonstop 24/7!'
+                           description: '3️⃣ Kuota nonstop 24 jam.'
+                        },
+                        {
+                           title: 'Smartfren',
+                           rowId: `${prefix}smartfren`,
+                           description: '📶 Kuota anti lelet untuk streaming.'
                         },
                         {
                            title: 'By.U',
                            rowId: `${prefix}byu`,
-                           description: '📱 Paket data By.U, simpel & hemat kuota!'
+                           description: '🌐 Paket data digital yang simpel.'
                         },
                      ]
                   },
                   {
-                     title: '📞 Pulsa',
+                     title: '📞 PULSA REGULER',
                      rows: [{
-                           title: 'Smartfren',
-                           rowId: `${prefix}pul_smartfren`,
-                           description: '📲 Pulsa Smartfren, cepat masuk, siap pakai!'
-                        },
-                        {
                            title: 'Telkomsel',
                            rowId: `${prefix}pul_telkomsel`,
-                           description: '☎️ Pulsa Telkomsel, semua nominal ready!'
+                           description: '☎️ Semua nominal pulsa Telkomsel.'
                         },
                         {
                            title: 'Indosat',
                            rowId: `${prefix}pul_indosat`,
-                           description: '📞 Pulsa IM3, instan & harga bersahabat!'
+                           description: '📞 Pulsa IM3 instan, harga bersahabat.'
                         },
                         {
-                           title: 'Axis',
+                           title: 'XL / Axis',
                            rowId: `${prefix}pul_axis`,
-                           description: '🔋 Pulsa Axis, langsung aktif tanpa nunggu!'
+                           description: '🔋 Pulsa Axis & XL, langsung aktif.'
                         },
                         {
                            title: 'Three',
                            rowId: `${prefix}pul_three`,
-                           description: '⚡ Pulsa Tri, kilat masuk, no lemot!'
+                           description: '⚡ Pulsa Tri kilat, tanpa lemot.'
+                        },
+                        {
+                           title: 'Smartfren',
+                           rowId: `${prefix}pul_smartfren`,
+                           description: '📲 Pulsa Smartfren cepat masuk.'
                         },
                         {
                            title: 'By.U',
                            rowId: `${prefix}pul_byu`,
-                           description: '📱 Paket data By.U, simpel & hemat kuota!'
+                           description: '🌐 Pulsa untuk provider digital By.U.'
                         },
                      ]
                   }
                ];
 
                const listMessage = {
-                  text: `
-📱 *Isi Ulang Pulsa & Kuota* 📱\n
-
-📅 *Tanggal*: ${hari}, ${tglFormat} 
-🕛 *Waktu*: ${jam}
-👤 *Nama*: ${pushname}
-💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
-
-💡 *Pilih provider di bawah untuk melihat daftar pulsa atau kuota:*
-            `,
-                  footer: `⚡ Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
-                  buttonText: '🔍 Pilih Provider',
-                  sections,
-                  mentions: [global.ownerNumber]
+                  text: reloadCenterCard,
+                  footer: 'Pilih provider untuk melihat daftar produk.',
+                  title: 'Kategori Layanan',
+                  buttonText: 'Pilih Kategori',
+                  sections: sections
                };
 
                await liwirya.sendMessage(from, listMessage, {
-                  quoted: fkontak
+                  quoted: msg
                });
+
             } catch (error) {
                console.error('Error in pulpaket:', error);
-               await liwirya.sendMessage(from, {
-                  text: `❌ *Terjadi kesalahan saat memuat daftar pulsa & kuota.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
-                  mentions: [global.ownerNumber]
-               }, {
-                  quoted: fkontak
-               });
+               await reply('⚠️ Terjadi kesalahan saat memuat menu pulsa & kuota.');
             }
             break;
          }
@@ -13537,6 +13749,1059 @@ Berikut adalah rincian saldo dan informasi akun Anda saat ini.
                console.error('Error in Maxim', error);
                await liwirya.sendMessage(from, {
                   text: `❌ *Terjadi kesalahan saat memuat daftar harga Maxim.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'indriver': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'Indriver' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `🚗 Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo Indriver yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+🚗 *Daftar Harga Saldo Indriver* 🚗\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup IDR1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '🚗 Saldo Indriver - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in Indriver', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo Indriver.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'mandirietoll': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'MandiriEToll' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `🛣️ Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo Mandiri E-Toll yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+🛣️ *Daftar Harga Saldo Mandiri E-Toll* 🛣️\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup METOLL1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '🛣️ Saldo Mandiri E-Toll - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in Mandiri E-Toll', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo Mandiri E-Toll.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'mtix': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'MTix' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `🎟️ Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo M-Tix yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+🎟️ *Daftar Harga Saldo M-Tix* 🎟️\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup MTIX1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '🎟️ Saldo M-Tix - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in M-Tix', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo M-Tix.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'kaspro': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'KasPro' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `💳 Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo KasPro yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+💳 *Daftar Harga Saldo KasPro* 💳\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup KSP1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '💳 Saldo KasPro - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in KasPro', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo KasPro.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'mitrablibli': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'MitraBlibli' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `🛒 Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo Mitra Blibli yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+🛒 *Daftar Harga Saldo Mitra Blibli* 🛒\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup MBLB1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '🛒 Saldo Mitra Blibli - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in Mitra Blibli', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo Mitra Blibli.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'shopeefooddriver': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'ShopeeFoodDriver' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `🚚 Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo Shopee Food Driver yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+🚚 *Daftar Harga Saldo Shopee Food Driver* 🚚\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup SFD1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '🚚 Saldo Shopee Food Driver - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in Shopee Food Driver', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo Shopee Food Driver.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'sakuku': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'Sakuku' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `💳 Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo Sakuku yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+💳 *Daftar Harga Saldo Sakuku* 💳\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup SKU1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '💳 Saldo Sakuku - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in Sakuku', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo Sakuku.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'mitrashopee': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'MitraShopee' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `🛒 Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo Mitra Shopee yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+🛒 *Daftar Harga Saldo Mitra Shopee* 🛒\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup MSHP1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '🛒 Saldo Mitra Shopee - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in Mitra Shopee', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo Mitra Shopee.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber]
+               }, {
+                  quoted: fkontak
+               });
+            }
+            break;
+         }
+         break
+
+         case 'tapcashbni': {
+            if (cekUser("id", sender) == null) {
+               return await liwirya.sendMessage(from, {
+                  text: `🚫 *Maaf, kamu belum terdaftar!* Silakan daftar terlebih dahulu dengan *${prefix}daftar* atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                  mentions: [global.ownerNumber, sender]
+               }, {
+                  quoted: fkontak
+               });
+            }
+
+            const tanggal = new Date();
+            const hari = tanggal.toLocaleDateString('id-ID', {
+               weekday: 'long'
+            });
+            const tglFormat = tanggal.toLocaleDateString('id-ID', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            });
+            const jam = tanggal.toLocaleTimeString('id-ID', {
+               hour: '2-digit',
+               minute: '2-digit',
+               timeZone: 'Asia/Jakarta'
+            });
+
+            try {
+               const key = new URLSearchParams();
+               key.append('api_key', apikeyAtlantic);
+               key.append('type', 'prabayar');
+
+               const response = await fetch('https://atlantich2h.com/layanan/price_list', {
+                  method: 'POST',
+                  body: key,
+                  redirect: 'follow'
+               });
+
+               const res = await response.json();
+
+               if (!res.status) {
+                  await liwirya.sendMessage(from, {
+                     text: `⚠️ *Server sedang maintenance.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+
+                  await liwirya.sendMessage(global.ownerNumber, {
+                     text: `⚠️ *Peringatan Server*: Silakan sambungkan IP (${res.message.replace(/[^0-9.]+/g, '')}) ke provider.`,
+                     mentions: [global.ownerNumber]
+                  });
+                  return;
+               }
+
+               const sortByPrice = (a, b) => {
+                  const aPrice = Number(a.price.replace(/[^0-9.-]+/g, ''));
+                  const bPrice = Number(b.price.replace(/[^0-9.-]+/g, ''));
+                  return aPrice - bPrice;
+               };
+
+               const listny = res.data
+                  .filter(item => item.provider === 'TapCashBNI' && item.status === 'available')
+                  .sort(sortByPrice)
+                  .map(item => {
+                     const profit = (untung / 100) * Number(item.price);
+                     return {
+                        title: item.name,
+                        rowId: `${prefix}topup ${item.code}`,
+                        description: `🛣️ Harga: Rp${toRupiah(Number(item.price) + Math.ceil(profit))} | Status: ✅`
+                     };
+                  });
+
+               if (listny.length === 0) {
+                  return await liwirya.sendMessage(from, {
+                     text: `⚠️ *Maaf, tidak ada daftar saldo TapCash BNI yang tersedia saat ini.* Silakan coba lagi nanti atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
+                     mentions: [global.ownerNumber]
+                  }, {
+                     quoted: fkontak
+                  });
+               }
+
+               const listMessage = {
+                  text: `
+🛣️ *Daftar Harga Saldo TapCash BNI* 🛣️\n
+
+📅 *Tanggal*: ${hari}, ${tglFormat} 
+🕛 *Waktu*: ${jam}
+👤 *Nama*: ${pushname}
+💸 *Saldo*: Rp${toRupiah(cekSaldo(sender, db_saldo))}
+
+💡 *Cara Topup*: Ketik *${prefix}topup [kode]* 
+(contoh: *${prefix}topup TCB1*)
+            `,
+                  footer: `⚡ Total Item: ${listny.length}\n Hubungi @${global.ownerNumber.split('@')[0]} untuk bantuan!`,
+                  buttonText: '🔍 Pilih Item',
+                  sections: [{
+                     title: '🛣️ Saldo TapCash BNI - Pilih Kategori Dibawah Ini ',
+                     rows: listny
+                  }],
+                  mentions: [global.ownerNumber]
+               };
+
+               await liwirya.sendMessage(from, listMessage, {
+                  quoted: fkontak
+               });
+            } catch (error) {
+               console.error('Error in TapCash BNI', error);
+               await liwirya.sendMessage(from, {
+                  text: `❌ *Terjadi kesalahan saat memuat daftar harga saldo TapCash BNI.* Silakan coba lagi atau hubungi owner di @${global.ownerNumber.split('@')[0]}.`,
                   mentions: [global.ownerNumber]
                }, {
                   quoted: fkontak
