@@ -1,4 +1,6 @@
-<center># Mahiru PPOB Bot 🤖</center>
+<center>
+    <p># Mahiru PPOB Bot 🤖</p>
+</center>
 
 Selamat datang di Mahiru PPOB, sebuah *framework* bot WhatsApp yang dirancang untuk mengotomatisasi transaksi PPOB (Payment Point Online Bank) melalui **API Atlantic**. Dokumentasi ini akan memandu Anda melalui seluruh proses, mulai dari penyiapan kredensial API hingga bot Anda siap beroperasi.
 
