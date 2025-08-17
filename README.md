@@ -121,10 +121,10 @@ graph LR
 <details>
 <summary><b>🔐 Langkah 2: Pengambilan API Key</b></summary>
 
-#### **2.1 Akses Portal Developer**
+#### **2.1 Akses Web H2H Atlantic**
 ```bash
 🌐 URL: https://atlantich2h.com/
-👤 Login: Gunakan kredensial Atlantic Pedia
+👤 Login: Gunakan akun h2h Atlantic Pedia yang sudah diupgrade dan dikirimkan ke email
 ```
 
 #### **2.2 Ambil Kredensial API**
@@ -132,7 +132,6 @@ graph LR
 📍 Menu: Pengaturan API
 🔑 Yang perlu disimpan:
   - API Key: "Kunci autentikasi utama"
-  - API Secret: "Jika tersedia"
   
 ⚠️  PENTING: Simpan kredensial di tempat yang aman!
 ```
@@ -164,7 +163,7 @@ graph LR
   - NPM: Latest version
   - Git: Latest version
   - OS: Linux/Windows/macOS
-  - RAM: Minimum 512MB
+  - RAM: Minimum 1GB
   - Storage: Minimum 1GB
 ```
 
@@ -227,26 +226,6 @@ npm list --depth=0
 
 // 🔑 KONFIGURASI API ATLANTIC
 const apikeyAtlantic = "4Davk3CWkdZ2xxxx"; // ⚠️ GANTI DENGAN API KEY ANDA
-
-// 👤 KONFIGURASI BOT
-global.ownerNumber = "628xxxx@s.whatsapp.net"; // 📱 Nomor Owner
-global.botName = "Mahiru PPOB Bot"; // 🤖 Nama Bot
-global.ownerName = "Admin Mahiru"; // 👑 Nama Owner
-
-// 💰 KONFIGURASI LAYANAN
-global.minTopup = 10000; // 💵 Minimum topup (Rp)
-global.adminFee = 1000; // 💸 Fee admin per transaksi
-
-// 🎨 KONFIGURASI PESAN
-global.welcomeMessage = `
-🎉 *Selamat datang di Mahiru PPOB Bot!*
-
-Layanan pembayaran digital terpercaya:
-• 💡 PLN Prabayar & Pascabayar
-• 📱 Pulsa & Paket Data
-• 🚰 PDAM
-• 📺 TV Berlangganan
-• 🎮 Voucher Game
 
 Ketik *menu* untuk memulai transaksi!
 `;
@@ -369,29 +348,6 @@ npm start
 ```
 
 </details>
-
----
-
-## 📊 Monitoring & Analytics
-
-### **Dashboard Monitoring**
-```yaml
-📈 Metrics yang dipantau:
-  - Total transaksi harian
-  - Success rate transaksi  
-  - Response time rata-rata
-  - Error count & types
-  - User engagement metrics
-```
-
-### **Setup Monitoring (Optional)**
-```bash
-# Install monitoring tools
-npm install --save express prometheus-client
-
-# Setup basic dashboard
-node monitoring/dashboard.js
-```
 
 ---
 
