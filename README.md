@@ -356,7 +356,7 @@ Konfirmasi? Ketik: YA
 
 ### **Q: Proses upgrade H2H lebih dari 3 hari, bagaimana?**
 **A:** Hubungi CS Atlantic Pedia melalui:
-- 📞 WhatsApp: [Nomor CS Official]
+- 📞 WhatsApp: [6285155081449]
 - 📧 Email: support@atlantic-pedia.co.id
 - Sertakan username/email untuk mempercepat proses
 
@@ -393,7 +393,7 @@ pm2 restart mahiru-bot
 💰 Biaya:
   - Framework Bot: ✅ GRATIS (Open Source)
   - Biaya Transaksi: 💳 Sesuai tarif Atlantic
-  - Server Hosting: 🖥️ Biaya hosting sendiri
+  - Server Hosting: 🖥️ Biaya server sendiri
 ```
 
 </details>
@@ -531,7 +531,7 @@ docker run -d -p 3000:3000 --name mahiru-bot mahiru-bot
 ### **🔧 Development Setup**
 ```bash
 # Fork repository
-git clone https://github.com/YOUR_USERNAME/Mahiru-PPOB.git
+git clone https://github.com/Liwirya/Mahiru-PPOB.git
 
 # Create feature branch
 git checkout -b feature/new-feature
@@ -610,9 +610,9 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 ```
 
-### 🙏 **Acknowledgments**
+### 🙏 **Kontribusi**
 
-**Special Thanks:**
+**Terimakasih:**
 - 🌊 **Atlantic Pedia** - API Provider
 - 📱 **Baileys** - WhatsApp Web API
 - 🚀 **Node.js Community** - Runtime environment
@@ -620,7 +620,7 @@ copies or substantial portions of the Software.
 
 ---
 
-**Made with ❤️ by [Liwirya x Mahiru](https://github.com/Liwirya) © 2025**
+**Dibuat oleh [Liwirya x Mahiru](https://github.com/Liwirya) © 2025**
 
 *All rights reserved. This project is licensed under MIT License.*
 
