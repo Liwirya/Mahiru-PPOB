@@ -49,10 +49,10 @@
 
 ---
 
-## 🖼️ Preview Interface
+## 🖼️ Profile Developer
 
 <div align="center">
-<img src="https://files.catbox.moe/h9tt6l.jpg" alt="Mahiru PPOB Bot Interface" width="600px" style="border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+<img src="https://files.catbox.moe/h9tt6l.jpg" alt="Developer Mahiru" width="600px" style="border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
 
 *Tampilan interface bot dalam percakapan WhatsApp*
 </div>
