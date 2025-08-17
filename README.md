@@ -1,43 +1,47 @@
 # 🤖 Mahiru PPOB Bot
+### *Framework Bot WhatsApp untuk Transaksi PPOB Otomatis*
 
 <div align="center">
 
-![Mahiru PPOB Banner](https://files.catbox.moe/h9tt6l.jpg)
-
-**Automate your WhatsApp PPOB transactions with Atlantic API integration**
-
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=flat-square)](https://github.com/Liwirya/Mahiru-PPOB)
-[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
-[![Status](https://img.shields.io/badge/status-Active-brightgreen.svg?style=flat-square)]()
-[![Node.js](https://img.shields.io/badge/node.js-v16+-orange.svg?style=flat-square)](https://nodejs.org/)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-Bot-25D366.svg?style=flat-square)](https://whatsapp.com/)
+![Versi](https://img.shields.io/badge/versi-1.0.0-blue.svg?style=for-the-badge)
+![Lisensi](https://img.shields.io/badge/lisensi-MIT-green.svg?style=for-the-badge)
+![Status](https://img.shields.io/badge/status-Aktif-brightgreen.svg?style=for-the-badge)
+![Node.js](https://img.shields.io/badge/Node.js-16+-339933?style=for-the-badge&logo=node.js&logoColor=white)
 
 </div>
 
 ---
 
-## 🌟 Features
+## 🌟 Sekilas Tentang Mahiru PPOB
+
+**Mahiru PPOB** adalah framework bot WhatsApp yang canggih dan mudah digunakan, dirancang khusus untuk mengotomatisasi transaksi **PPOB (Payment Point Online Bank)** melalui integrasi dengan **API Atlantic**. Bot ini memungkinkan Anda menjalankan layanan pembayaran digital langsung dari WhatsApp dengan sistem yang aman dan terpercaya.
+
+> 💡 **Keunggulan Utama**: Otomatisasi penuh, integrasi seamless, dan antarmuka yang user-friendly
+
+---
+
+## 🎯 Fitur Utama
 
 <table>
 <tr>
 <td width="50%">
 
-### 🚀 **Core Features**
-- ✅ Automated PPOB transactions
-- ✅ WhatsApp integration
-- ✅ Atlantic API H2H support
-- ✅ Real-time transaction processing
-- ✅ Multi-service support
+### 🔧 **Fitur Teknis**
+- ✅ Integrasi langsung dengan API Atlantic
+- ✅ Sistem autentikasi H2H yang aman  
+- ✅ Monitoring transaksi real-time
+- ✅ Error handling yang robust
+- ✅ Logging sistem yang komprehensif
 
 </td>
 <td width="50%">
 
-### 🛡️ **Security & Reliability**
-- ✅ Secure API authentication
-- ✅ Transaction logging
-- ✅ Error handling
-- ✅ IP whitelisting support
-- ✅ 24/7 operation capability
+### 🎨 **Fitur Pengguna**
+- ✅ Interface WhatsApp yang intuitif
+- ✅ Response time yang cepat
+- ✅ Notifikasi status transaksi otomatis
+- ✅ Multi-layanan PPOB
+- ✅ Sistem feedback yang interaktif
 
 </td>
 </tr>
@@ -45,263 +49,539 @@
 
 ---
 
-## 🏗️ System Architecture
+## 🖼️ Preview Interface
+
+<div align="center">
+<img src="https://files.catbox.moe/h9tt6l.jpg" alt="Mahiru PPOB Bot Interface" width="600px" style="border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+
+*Tampilan interface bot dalam percakapan WhatsApp*
+</div>
+
+---
+
+## 🏗️ Arsitektur Sistem
 
 ```mermaid
 graph LR
-    A[WhatsApp User] --> B[Mahiru Bot]
-    B --> C[Atlantic API]
-    C --> D[Transaction Processing]
+    A[👤 Pengguna WhatsApp] --> B[🤖 Mahiru Bot]
+    B --> C[🔗 API Atlantic]
+    C --> D[💳 Sistem PPOB]
     D --> C
     C --> B
     B --> A
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
 ```
 
-**Data Flow:** `User Request → Bot Processing → API Call → Transaction → Response → User Notification`
+**Alur Kerja:**
+1. **Input** - Pengguna mengirim perintah melalui WhatsApp
+2. **Processing** - Bot memproses dan meneruskan ke API Atlantic
+3. **Execution** - API Atlantic mengeksekusi transaksi
+4. **Response** - Hasil dikembalikan ke pengguna melalui bot
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Panduan Instalasi Lengkap
 
-> **⚠️ Prerequisites:** You need Atlantic H2H API credentials before proceeding
-
-### 📋 Requirements
-
-| Component | Version | Status |
-|-----------|---------|--------|
-| Node.js | v16+ | Required |
-| npm | Latest | Required |
-| Git | Latest | Required |
-| Atlantic API Key | Active | Required |
-
----
-
-## 🔐 Phase 1: Atlantic API Setup
-
-### Step 1: Account Registration
+### 📋 **Fase 1: Persiapan Kredensial Atlantic API**
 
 <details>
-<summary><strong>📝 Click to expand registration guide</strong></summary>
+<summary><b>🔑 Langkah 1: Registrasi & Upgrade Akun H2H</b></summary>
 
-1. **Create Atlantic Account**
-   - Visit [Atlantic Pedia Portal](https://m.atlantic-pedia.co.id/)
-   - Complete registration with valid information
-   - Verify your email address
-
-2. **Account Verification**
-   - Ensure all personal information is accurate
-   - Complete KYC if required
-   - Wait for account activation
-
-</details>
-
-### Step 2: H2H Upgrade Request
-
-<details>
-<summary><strong>🔄 Click to expand upgrade process</strong></summary>
-
-> ⏰ **Processing Time:** 1-3 business days
-
-1. **Access Upgrade Menu**
-   - Login to your Atlantic Pedia account
-   - Navigate to **Profile** → **H2H Account Upgrade**
-
-2. **Fill Application Form**
-   ```
-   API Usage: WhatsApp PPOB Transaction Bot
-   Bot URL/Number: [Your WhatsApp Bot Number]
-   Description: Automated PPOB transaction service via WhatsApp using Atlantic API
-   ```
-
-3. **Submit & Wait**
-   - Submit the completed form
-   - Monitor your email for approval status
-   - Contact support if no response after 3 days
-
-</details>
-
-### Step 3: API Credentials
-
-<details>
-<summary><strong>🔑 Click to expand credentials setup</strong></summary>
-
-1. **Access H2H Portal**
-   - Login to [Atlantic H2H Portal](https://atlantich2h.com/)
-   - Use the same credentials as Atlantic Pedia
-
-2. **Retrieve API Key**
-   - Go to **API Settings** menu
-   - Copy your **API Key** (keep it secure!)
-   - Note down any additional credentials
-
-3. **IP Whitelisting**
-   ```
-   Recommended Setting: 0.0.0.0 (allows all IPs)
-   Production Setting: [Your server's specific IP]
-   ```
-
-</details>
-
----
-
-## ⚙️ Phase 2: Bot Installation
-
-### Step 1: Clone Repository
-
+#### **1.1 Registrasi Akun Dasar**
 ```bash
-# Clone the repository
+🌐 Portal: https://m.atlantic-pedia.co.id/
+📝 Persyaratan:
+   ├── Email valid
+   ├── Nomor telepon aktif
+   ├── Data identitas lengkap
+   └── Verifikasi email
+```
+
+#### **1.2 Pengajuan Upgrade H2H**
+```yaml
+📍 Lokasi: Profile → Upgrade Akun H2H
+📋 Data yang diperlukan:
+  - Penggunaan API: "Bot Transaksi WhatsApp Otomatis"
+  - URL/Nomor Bot: "Nomor WhatsApp bot Anda"
+  - Deskripsi: "Bot PPOB otomatis menggunakan API Atlantic"
+  
+⏱️ Estimasi Proses: 1-3 hari kerja
+```
+
+<div align="center">
+<img src="https://img1.pixhost.to/images/6555/612032552_skyzo.jpg" alt="Proses Upgrade H2H" width="500px" style="border-radius: 8px;">
+</div>
+
+</details>
+
+<details>
+<summary><b>🔐 Langkah 2: Pengambilan API Key</b></summary>
+
+#### **2.1 Akses Portal Developer**
+```bash
+🌐 URL: https://atlantich2h.com/
+👤 Login: Gunakan kredensial Atlantic Pedia
+```
+
+#### **2.2 Ambil Kredensial API**
+```yaml
+📍 Menu: Pengaturan API
+🔑 Yang perlu disimpan:
+  - API Key: "Kunci autentikasi utama"
+  - API Secret: "Jika tersedia"
+  
+⚠️  PENTING: Simpan kredensial di tempat yang aman!
+```
+
+<div align="center">
+<img src="https://img1.pixhost.to/images/6555/612033713_skyzo.jpg" alt="Lokasi API Key" width="500px" style="border-radius: 8px;">
+</div>
+
+#### **2.3 Konfigurasi Whitelist IP**
+```yaml
+🛡️ Keamanan IP:
+  - Development: "0.0.0.0" (semua IP)
+  - Production: "IP_SERVER_ANDA" (rekomendasi)
+```
+
+</details>
+
+---
+
+### ⚡ **Fase 2: Instalasi & Konfigurasi Bot**
+
+<details>
+<summary><b>📦 Langkah 1: Setup Environment</b></summary>
+
+#### **Prasyarat Sistem**
+```yaml
+💻 Requirements:
+  - Node.js: v16.x atau lebih tinggi
+  - NPM: Latest version
+  - Git: Latest version
+  - OS: Linux/Windows/macOS
+  - RAM: Minimum 512MB
+  - Storage: Minimum 1GB
+```
+
+#### **Verifikasi Installation**
+```bash
+# Cek versi Node.js
+node --version
+
+# Cek versi NPM
+npm --version
+
+# Cek versi Git
+git --version
+```
+
+</details>
+
+<details>
+<summary><b>📥 Langkah 2: Clone & Setup Project</b></summary>
+
+#### **Clone Repository**
+```bash
+# Clone project dari GitHub
 git clone https://github.com/Liwirya/Mahiru-PPOB.git
 
-# Navigate to project directory
+# Masuk ke direktori project
 cd Mahiru-PPOB
+
+# Cek isi direktori
+ls -la
 ```
 
-### Step 2: Install Dependencies
-
+#### **Install Dependencies**
 ```bash
-# Install all required packages
+# Install semua package yang diperlukan
 npm install
 
-# Verify installation
+# Verifikasi instalasi
 npm list --depth=0
 ```
 
-### Step 3: Configuration
-
-**Edit `settings.js`:**
-
-```javascript
-// 🔑 Atlantic API Configuration
-const apikeyAtlantic = "YOUR_ATLANTIC_API_KEY_HERE"; // Replace with your actual API key
-
-// ⚙️ Bot Settings
-global.ownerNumber = "628XXXXXXXXXX@s.whatsapp.net"; // Your WhatsApp number (Owner)
-
-// 🌐 Optional Settings
-global.botName = "Mahiru PPOB Bot";
-global.botPrefix = ".";
-global.timezone = "Asia/Jakarta";
+#### **Output yang diharapkan:**
+```
+├── @whiskeysockets/baileys@latest
+├── axios@latest
+├── chalk@latest
+├── moment@latest
+├── node-cron@latest
+└── qrcode-terminal@latest
 ```
 
-### Step 4: Launch Bot
-
-```bash
-# Start the bot
-npm start
-
-# For production (with PM2)
-npm run prod
-```
-
-<div align="center">
-
-### 🎉 **Congratulations!** Your bot is now running!
-
-</div>
-
----
-
-## 📱 Bot Commands
-
-<table>
-<tr>
-<th width="30%">Category</th>
-<th width="35%">Command</th>
-<th width="35%">Description</th>
-</tr>
-<tr>
-<td rowspan="3"><strong>🏪 PPOB Services</strong></td>
-<td><code>.pulsa [number] [nominal]</code></td>
-<td>Top up phone credit</td>
-</tr>
-<tr>
-<td><code>.listrik [token] [nominal]</code></td>
-<td>Purchase electricity token</td>
-</tr>
-<tr>
-<td><code>.paket [number] [package]</code></td>
-<td>Buy data packages</td>
-</tr>
-<tr>
-<td rowspan="2"><strong>💰 Account</strong></td>
-<td><code>.saldo</code></td>
-<td>Check balance</td>
-</tr>
-<tr>
-<td><code>.history</code></td>
-<td>Transaction history</td>
-</tr>
-<tr>
-<td rowspan="2"><strong>ℹ️ Information</strong></td>
-<td><code>.help</code></td>
-<td>Show all commands</td>
-</tr>
-<tr>
-<td><code>.status</code></td>
-<td>Bot system status</td>
-</tr>
-</table>
-
----
-
-## 🔧 Troubleshooting
+</details>
 
 <details>
-<summary><strong>🚨 Common Issues & Solutions</strong></summary>
+<summary><b>⚙️ Langkah 3: Konfigurasi Bot</b></summary>
 
-### Authentication Errors
-```
-Error: Authentication Failed / Invalid API Key
-```
-**Solutions:**
-- ✅ Verify API key is correctly copied
-- ✅ Ensure H2H upgrade is approved
-- ✅ Check IP whitelist settings
-- ✅ Contact Atlantic support if persistent
+#### **Edit File Konfigurasi**
+```javascript
+// 📄 File: settings.js
 
-### Connection Issues
-```
-Error: Connection timeout / Network error
-```
-**Solutions:**
-- ✅ Check internet connection
-- ✅ Verify server firewall settings
-- ✅ Test API endpoint manually
-- ✅ Review Atlantic service status
+// 🔑 KONFIGURASI API ATLANTIC
+const apikeyAtlantic = "4Davk3CWkdZ2xxxx"; // ⚠️ GANTI DENGAN API KEY ANDA
 
-### Bot Not Responding
+// 👤 KONFIGURASI BOT
+global.ownerNumber = "628xxxx@s.whatsapp.net"; // 📱 Nomor Owner
+global.botName = "Mahiru PPOB Bot"; // 🤖 Nama Bot
+global.ownerName = "Admin Mahiru"; // 👑 Nama Owner
+
+// 💰 KONFIGURASI LAYANAN
+global.minTopup = 10000; // 💵 Minimum topup (Rp)
+global.adminFee = 1000; // 💸 Fee admin per transaksi
+
+// 🎨 KONFIGURASI PESAN
+global.welcomeMessage = `
+🎉 *Selamat datang di Mahiru PPOB Bot!*
+
+Layanan pembayaran digital terpercaya:
+• 💡 PLN Prabayar & Pascabayar
+• 📱 Pulsa & Paket Data
+• 🚰 PDAM
+• 📺 TV Berlangganan
+• 🎮 Voucher Game
+
+Ketik *menu* untuk memulai transaksi!
+`;
 ```
-Bot receives messages but doesn't respond
+
+#### **Konfigurasi Environment Variables**
+```bash
+# Buat file .env (opsional)
+touch .env
+
+# Tambahkan konfigurasi
+echo "ATLANTIC_API_KEY=your_api_key_here" >> .env
+echo "OWNER_NUMBER=628xxxx" >> .env
+echo "BOT_NAME=Mahiru PPOB Bot" >> .env
 ```
-**Solutions:**
-- ✅ Check WhatsApp Web connection
-- ✅ Verify bot configuration
-- ✅ Review console logs
-- ✅ Restart bot service
+
+</details>
+
+<details>
+<summary><b>🚀 Langkah 4: Menjalankan Bot</b></summary>
+
+#### **Start Bot**
+```bash
+# Jalankan bot
+npm start
+
+# Atau dengan PM2 (untuk production)
+npm install -g pm2
+pm2 start index.js --name "mahiru-bot"
+```
+
+#### **Output Sukses:**
+```
+🤖 Mahiru PPOB Bot Starting...
+📱 Connecting to WhatsApp...
+🔗 API Atlantic Connected ✅
+📋 QR Code Generated:
+
+██████████████  ██████████████
+██ ▄▄▄▄▄ █ ▀▀█  ██ ▄▄▄▄▄ ███
+██ █   █ █▄ ▄█  ██ █   █ ███
+██ █▄▄▄█ █ ██▀  ██ █▄▄▄█ ███
+██▄▄▄▄▄▄▄█▄▀ ▀  █▄▄▄▄▄▄▄███
+████▄▄█▄▄▄ ▄▄▀█ █▀ █ █▀▄███
+
+📞 Scan QR Code dengan WhatsApp Anda
+```
+
+#### **Monitoring Logs**
+```bash
+# Lihat logs real-time
+tail -f logs/bot.log
+
+# Monitoring dengan PM2
+pm2 logs mahiru-bot
+pm2 monit
+```
 
 </details>
 
 ---
 
-## 🤝 Support & Community
+## 🎮 Panduan Penggunaan Bot
+
+### 📱 **Command List**
+
+| Perintah | Fungsi | Contoh |
+|----------|---------|---------|
+| `!menu` | Tampilkan menu utama | `!menu` |
+| `!pulsa` | Isi pulsa | `!pulsa 08123456789 20000` |
+| `!pln` | Token PLN | `!pln 123456789 50000` |
+| `!kuota` | Paket data | `!kuota 08123456789 XL_DATA_10GB` |
+| `!saldo` | Cek saldo | `!saldo` |
+| `!help` | Bantuan | `!help` |
+
+### 💡 **Contoh Penggunaan**
+
+```
+👤 User: !menu
+🤖 Bot: 
+┌─ 📋 MENU MAHIRU PPOB ─┐
+├ 💡 PLN Prabayar
+├ 📱 Pulsa & Paket Data  
+├ 🚰 Air PDAM
+├ 📺 TV Berlangganan
+├ 🎮 Voucher Game
+└─ 💰 Cek Saldo ─┘
+
+Ketik nomor layanan atau !help untuk panduan
+
+👤 User: !pulsa 08123456789 25000
+🤖 Bot: 
+⏳ Memproses transaksi...
+📱 Pulsa Rp 25.000
+📞 Nomor: 08123456789
+💰 Total: Rp 26.000 (termasuk admin)
+
+Konfirmasi? Ketik: YA
+```
+
+---
+
+## 🛠️ Troubleshooting & FAQ
+
+<details>
+<summary><b>❓ Frequently Asked Questions</b></summary>
+
+### **Q: Proses upgrade H2H lebih dari 3 hari, bagaimana?**
+**A:** Hubungi CS Atlantic Pedia melalui:
+- 📞 WhatsApp: [Nomor CS Official]
+- 📧 Email: support@atlantic-pedia.co.id
+- Sertakan username/email untuk mempercepat proses
+
+### **Q: Bot menampilkan "Authentication Failed"?**
+**A:** Kemungkinan penyebab:
+```yaml
+🔍 Troubleshooting:
+  1. ❌ API Key salah/belum aktif
+     ✅ Cek ulang API Key di portal H2H
+  
+  2. ❌ Akun belum status H2H
+     ✅ Pastikan upgrade sudah diapprove
+  
+  3. ❌ Whitelist IP belum diatur
+     ✅ Set IP ke 0.0.0.0 atau IP spesifik
+```
+
+### **Q: Bot tidak merespon pesan?**
+**A:** Langkah debugging:
+```bash
+# Cek logs bot
+tail -f logs/bot.log
+
+# Cek koneksi WhatsApp
+pm2 status mahiru-bot
+
+# Restart bot
+pm2 restart mahiru-bot
+```
+
+### **Q: Apakah bot ini gratis?**
+**A:** 
+```yaml
+💰 Biaya:
+  - Framework Bot: ✅ GRATIS (Open Source)
+  - Biaya Transaksi: 💳 Sesuai tarif Atlantic
+  - Server Hosting: 🖥️ Biaya hosting sendiri
+```
+
+</details>
+
+<details>
+<summary><b>🐛 Common Errors & Solutions</b></summary>
+
+### **Error 1: "Module not found"**
+```bash
+# Solution
+rm -rf node_modules
+rm package-lock.json
+npm cache clean --force
+npm install
+```
+
+### **Error 2: "Port already in use"**
+```bash
+# Cari proses yang menggunakan port
+lsof -ti:3000
+
+# Kill proses
+kill -9 PID_NUMBER
+
+# Atau gunakan port lain
+PORT=3001 npm start
+```
+
+### **Error 3: "QR Code not generated"**
+```bash
+# Clear session data
+rm -rf session/
+npm start
+```
+
+</details>
+
+---
+
+## 📊 Monitoring & Analytics
+
+### **Dashboard Monitoring**
+```yaml
+📈 Metrics yang dipantau:
+  - Total transaksi harian
+  - Success rate transaksi  
+  - Response time rata-rata
+  - Error count & types
+  - User engagement metrics
+```
+
+### **Setup Monitoring (Optional)**
+```bash
+# Install monitoring tools
+npm install --save express prometheus-client
+
+# Setup basic dashboard
+node monitoring/dashboard.js
+```
+
+---
+
+## 🔐 Security & Best Practices
+
+### **🛡️ Keamanan API**
+- ✅ Simpan API Key di environment variables
+- ✅ Gunakan HTTPS untuk semua request
+- ✅ Implementasi rate limiting
+- ✅ Whitelist IP address
+- ✅ Regular security audit
+
+### **🔄 Backup & Recovery**
+```bash
+# Setup automated backup
+crontab -e
+
+# Add backup script (daily at 2 AM)
+0 2 * * * /path/to/backup.sh
+```
+
+---
+
+## 🚀 Deployment Options
+
+<details>
+<summary><b>☁️ Cloud Deployment</b></summary>
+
+### **VPS/Dedicated Server**
+```yaml
+💻 Recommended Specs:
+  - CPU: 2 vCPU
+  - RAM: 2GB
+  - Storage: 20GB SSD
+  - Bandwidth: Unlimited
+  - OS: Ubuntu 20.04 LTS
+```
+
+### **Cloud Providers**
+- 🌊 **Digital Ocean**: $10/month droplet
+- ☁️ **AWS EC2**: t2.micro (free tier)
+- 🌐 **Google Cloud**: e2-micro (free tier)
+- 🔷 **Azure**: B1s instance
+
+</details>
+
+<details>
+<summary><b>🐳 Docker Deployment</b></summary>
+
+```dockerfile
+# Dockerfile
+FROM node:16-alpine
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+
+COPY . .
+EXPOSE 3000
+
+CMD ["npm", "start"]
+```
+
+```bash
+# Build & Run
+docker build -t mahiru-bot .
+docker run -d -p 3000:3000 --name mahiru-bot mahiru-bot
+```
+
+</details>
+
+---
+
+## 🤝 Contributing & Development
+
+### **🔧 Development Setup**
+```bash
+# Fork repository
+git clone https://github.com/YOUR_USERNAME/Mahiru-PPOB.git
+
+# Create feature branch
+git checkout -b feature/new-feature
+
+# Make changes and commit
+git commit -m "Add: new feature description"
+
+# Push and create PR
+git push origin feature/new-feature
+```
+
+### **📝 Code Standards**
+- ✅ ESLint configuration
+- ✅ Prettier code formatting
+- ✅ JSDoc documentation
+- ✅ Unit testing with Jest
+
+---
+
+## 📞 Support & Community
 
 <div align="center">
 
-### Get Help & Stay Connected
+### 🌟 **Bergabung dengan Komunitas Mahiru**
 
 <table>
 <tr>
-<td align="center">
-<strong>📧 Developer Email</strong><br>
-<a href="mailto:wiraliwirya@gmail.com">wiraliwirya@gmail.com</a>
+<td align="center" width="33%">
+
+### 💬 **WhatsApp Community**
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Community-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029VadHRVCEQIagiLHVJV0d)
+
+Diskusi real-time dengan komunitas
+
 </td>
-<td align="center">
-<strong>💬 WhatsApp Community</strong><br>
-<a href="https://whatsapp.com/channel/0029VadHRVCEQIagiLHVJV0d">Join Channel</a>
+<td align="center" width="33%">
+
+### 📧 **Email Support**
+[![Email](https://img.shields.io/badge/Email-Developer-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:wiraliwirya@gmail.com)
+
+Support teknis & partnership
+
 </td>
-<td align="center">
-<strong>🐛 Bug Reports</strong><br>
-<a href="https://github.com/Liwirya/Mahiru-PPOB/issues">GitHub Issues</a>
+<td align="center" width="33%">
+
+### 🐛 **Issue Tracker**
+[![GitHub](https://img.shields.io/badge/GitHub-Issues-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Liwirya/Mahiru-PPOB/issues)
+
+Bug reports & feature requests
+
 </td>
 </tr>
 </table>
@@ -310,44 +590,49 @@ Bot receives messages but doesn't respond
 
 ---
 
-## 📊 Project Stats
+## 📄 License & Credits
 
 <div align="center">
 
-![GitHub stars](https://img.shields.io/github/stars/Liwirya/Mahiru-PPOB?style=social)
-![GitHub forks](https://img.shields.io/github/forks/Liwirya/Mahiru-PPOB?style=social)
-![GitHub issues](https://img.shields.io/github/issues/Liwirya/Mahiru-PPOB?style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/Liwirya/Mahiru-PPOB?style=flat-square)
+### 📜 **MIT License**
+
+```
+Copyright (c) 2025 Liwirya x Mahiru
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
+
+### 🙏 **Acknowledgments**
+
+**Special Thanks:**
+- 🌊 **Atlantic Pedia** - API Provider
+- 📱 **Baileys** - WhatsApp Web API
+- 🚀 **Node.js Community** - Runtime environment
+- ❤️ **Open Source Community** - Continuous support
+
+---
+
+**Made with ❤️ by [Liwirya x Mahiru](https://github.com/Liwirya) © 2025**
+
+*All rights reserved. This project is licensed under MIT License.*
 
 </div>
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **Atlantic PPOB** for providing the H2H API service
-- **WhatsApp** for the messaging platform
-- **Node.js Community** for the amazing ecosystem
-- **All contributors** who help improve this project
-
----
-
 <div align="center">
 
-### 💝 Made with Love
+### ⭐ **Jika project ini membantu, berikan star di GitHub!**
 
-**Created by [Liwirya x Mahiru](https://github.com/Liwirya) © 2025**
-
-*Empowering businesses with automated PPOB solutions*
-
----
-
-**⭐ Star this repository if you find it helpful!**
+[![GitHub stars](https://img.shields.io/github/stars/Liwirya/Mahiru-PPOB?style=social)](https://github.com/Liwirya/Mahiru-PPOB/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Liwirya/Mahiru-PPOB?style=social)](https://github.com/Liwirya/Mahiru-PPOB/network)
 
 </div>
