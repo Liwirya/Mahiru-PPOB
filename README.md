@@ -27,8 +27,8 @@
 <td width="50%">
 
 ### 🔧 **Fitur Teknis**
-- ✅ Integrasi langsung dengan API Atlantic
-- ✅ Sistem autentikasi H2H yang aman  
+- ✅ Integrasi menggunakann API Atlantic
+- ✅ Sistem keamanan Transaksi dari atlantic  
 - ✅ Monitoring transaksi real-time
 - ✅ Error handling yang robust
 - ✅ Logging sistem yang komprehensif
@@ -280,73 +280,12 @@ pm2 start index.js --name "mahiru-bot"
 
 #### **Output Sukses:**
 ```
-🤖 Mahiru PPOB Bot Starting...
-📱 Connecting to WhatsApp...
-🔗 API Atlantic Connected ✅
-📋 QR Code Generated:
+📞 Masukan nomor whatsapp anda:
 
-██████████████  ██████████████
-██ ▄▄▄▄▄ █ ▀▀█  ██ ▄▄▄▄▄ ███
-██ █   █ █▄ ▄█  ██ █   █ ███
-██ █▄▄▄█ █ ██▀  ██ █▄▄▄█ ███
-██▄▄▄▄▄▄▄█▄▀ ▀  █▄▄▄▄▄▄▄███
-████▄▄█▄▄▄ ▄▄▀█ █▀ █ █▀▄███
+🛜 Your pairing code: xxxx-xxxx
 
-📞 Scan QR Code dengan WhatsApp Anda
+⚠️ Bila gk muncul notifikasi, bisa hubung ke wa secara manual, atau merubah isPairingcode = true ganti jadi false, sehingga memberikan qr code
 ```
-
-#### **Monitoring Logs**
-```bash
-# Lihat logs real-time
-tail -f logs/bot.log
-
-# Monitoring dengan PM2
-pm2 logs mahiru-bot
-pm2 monit
-```
-
-</details>
-
----
-
-## 🎮 Panduan Penggunaan Bot
-
-### 📱 **Command List**
-
-| Perintah | Fungsi | Contoh |
-|----------|---------|---------|
-| `!menu` | Tampilkan menu utama | `!menu` |
-| `!pulsa` | Isi pulsa | `!pulsa 08123456789 20000` |
-| `!pln` | Token PLN | `!pln 123456789 50000` |
-| `!kuota` | Paket data | `!kuota 08123456789 XL_DATA_10GB` |
-| `!saldo` | Cek saldo | `!saldo` |
-| `!help` | Bantuan | `!help` |
-
-### 💡 **Contoh Penggunaan**
-
-```
-👤 User: !menu
-🤖 Bot: 
-┌─ 📋 MENU MAHIRU PPOB ─┐
-├ 💡 PLN Prabayar
-├ 📱 Pulsa & Paket Data  
-├ 🚰 Air PDAM
-├ 📺 TV Berlangganan
-├ 🎮 Voucher Game
-└─ 💰 Cek Saldo ─┘
-
-Ketik nomor layanan atau !help untuk panduan
-
-👤 User: !pulsa 08123456789 25000
-🤖 Bot: 
-⏳ Memproses transaksi...
-📱 Pulsa Rp 25.000
-📞 Nomor: 08123456789
-💰 Total: Rp 26.000 (termasuk admin)
-
-Konfirmasi? Ketik: YA
-```
-
 ---
 
 ## 🛠️ Troubleshooting & FAQ
@@ -356,7 +295,7 @@ Konfirmasi? Ketik: YA
 
 ### **Q: Proses upgrade H2H lebih dari 3 hari, bagaimana?**
 **A:** Hubungi CS Atlantic Pedia melalui:
-- 📞 WhatsApp: [6285155081449]
+- 📞 WhatsApp: [+6285155081449]
 - 📧 Email: support@atlantic-pedia.co.id
 - Sertakan username/email untuk mempercepat proses
 
