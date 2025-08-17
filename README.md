@@ -93,9 +93,9 @@ graph LR
 
 #### **1.1 Registrasi Akun Dasar**
 ```bash
-🌐 Portal: https://m.atlantic-pedia.co.id/
-📝 Persyaratan:
-   ├── Email valid
+🌐 Web: https://m.atlantic-pedia.co.id/
+📝 Persyaratan Pendaftaran:
+   ├── Email valid / aktif
    ├── Nomor telepon aktif
    ├── Data identitas lengkap
    └── Verifikasi email
