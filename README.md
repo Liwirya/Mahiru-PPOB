@@ -230,18 +230,6 @@ const apikeyAtlantic = "4Davk3CWkdZ2xxxx"; // ⚠️ GANTI DENGAN API KEY ANDA
 Ketik *menu* untuk memulai transaksi!
 `;
 ```
-
-#### **Konfigurasi Environment Variables**
-```bash
-# Buat file .env (opsional)
-touch .env
-
-# Tambahkan konfigurasi
-echo "ATLANTIC_API_KEY=your_api_key_here" >> .env
-echo "OWNER_NUMBER=628xxxx" >> .env
-echo "BOT_NAME=Mahiru PPOB Bot" >> .env
-```
-
 </details>
 
 <details>
