@@ -163,8 +163,8 @@ graph LR
   - NPM: Latest version
   - Git: Latest version
   - OS: Linux/Windows/macOS
-  - RAM: Minimum 1GB
-  - Storage: Minimum 1GB
+  - RAM: Minimum 2GB
+  - Storage: Minimum 2GB
 ```
 
 #### **Verifikasi Installation**
@@ -205,7 +205,7 @@ npm install
 npm list --depth=0
 ```
 
-#### **Output yang diharapkan:**
+#### **Output yang diharapkan (contoh):**
 ```
 ├── @whiskeysockets/baileys@latest
 ├── axios@latest
@@ -274,9 +274,7 @@ pm2 start index.js --name "mahiru-bot"
 
 ### **Q: Proses upgrade H2H lebih dari 3 hari, bagaimana?**
 **A:** Hubungi CS Atlantic Pedia melalui:
-- 📞 WhatsApp: [+6285155081449]
-- 📧 Email: support@atlantic-pedia.co.id
-- Sertakan username/email untuk mempercepat proses
+- 📞 WhatsApp: +6285155081449
 
 ### **Q: Bot menampilkan "Authentication Failed"?**
 **A:** Kemungkinan penyebab:
@@ -348,26 +346,6 @@ npm start
 ```
 
 </details>
-
----
-
-## 🔐 Security & Best Practices
-
-### **🛡️ Keamanan API**
-- ✅ Simpan API Key di environment variables
-- ✅ Gunakan HTTPS untuk semua request
-- ✅ Implementasi rate limiting
-- ✅ Whitelist IP address
-- ✅ Regular security audit
-
-### **🔄 Backup & Recovery**
-```bash
-# Setup automated backup
-crontab -e
-
-# Add backup script (daily at 2 AM)
-0 2 * * * /path/to/backup.sh
-```
 
 ---
 
@@ -509,10 +487,6 @@ copies or substantial portions of the Software.
 
 **Terimakasih:**
 - 🌊 **Atlantic Pedia** - API Provider
-- 📱 **Baileys** - WhatsApp Web API
-- 🚀 **Node.js Community** - Runtime environment
-- ❤️ **Open Source Community** - Continuous support
-
 ---
 
 **Dibuat oleh [Liwirya x Mahiru](https://github.com/Liwirya) © 2025**
